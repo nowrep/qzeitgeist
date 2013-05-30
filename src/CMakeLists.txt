@@ -13,6 +13,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 
 set(qzeitgeist_HEADERS
     mimetype.h
+    symbol.h
     qzeitgeist.h
     qzeitgeist_defines.h
     ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_version.h
@@ -20,6 +21,7 @@ set(qzeitgeist_HEADERS
 
 set(qzeitgeist_SRCS
     mimetype.cpp
+    symbol.cpp
 )
 
 configure_file(qzeitgeist_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_version.h @ONLY)
