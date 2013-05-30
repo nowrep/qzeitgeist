@@ -1,3 +1,6 @@
+#ifndef QZEITGEIST_DEFINES_H_
+#define QZEITGEIST_DEFINES_H_
+
 #define QZEITGEIST_NCAL_ALARM "http://www.semanticdesktop.org/ontologies/2007/04/02/ncal#Alarm"
 #define QZEITGEIST_NCAL_ATTACHMENT "http://www.semanticdesktop.org/ontologies/2007/04/02/ncal#Attachment"
 #define QZEITGEIST_NCAL_CALENDAR "http://www.semanticdesktop.org/ontologies/2007/04/02/ncal#Calendar"
@@ -90,3 +93,5 @@
 #define QZEITGEIST_ZG_SYSTEM_NOTIFICATION "http://www.zeitgeist-project.com/ontologies/2010/01/27/zg#SystemNotification"
 #define QZEITGEIST_ZG_USER_ACTIVITY "http://www.zeitgeist-project.com/ontologies/2010/01/27/zg#UserActivity"
 #define QZEITGEIST_ZG_WORLD_ACTIVITY "http://www.zeitgeist-project.com/ontologies/2010/01/27/zg#WorldActivity"
+
+#endif // QZEITGEIST_DEFINES_H_
