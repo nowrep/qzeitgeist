@@ -45,10 +45,10 @@ QUrl MimeType::getInterpretationUrl(const QString &mimeType)
 {
     QByteArray mimeData = mimeType.toUtf8();
 
-    const gchar *val = zeitgeist_interpretation_for_mimetype(mimeData.constData());
-    const QString uri = val;
+    const gchar *result = zeitgeist_interpretation_for_mimetype(mimeData.constData());
+    const QString uri = result;
 
-    g_free((void *)val);
+    g_free((void *)result);
 
     return QUrl(uri);
 }
@@ -65,10 +65,10 @@ QString MimeType::getManifestation(const QUrl &url)
 {
     QByteArray urlData = url.toString().toUtf8();
 
-    const gchar *val = zeitgeist_manifestation_for_uri(urlData.constData());
-    const QString manifestation = val;
+    const gchar *result = zeitgeist_manifestation_for_uri(urlData.constData());
+    const QString manifestation = result;
 
-    g_free((void *)val);
+    g_free((void *)result);
 
     return manifestation;
 }
