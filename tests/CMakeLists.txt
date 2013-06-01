@@ -5,3 +5,4 @@ include_directories(${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src)
 
 add_subdirectory(mimetypes)
 add_subdirectory(symbols)
+add_subdirectory(timerange)
