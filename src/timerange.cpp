@@ -68,8 +68,11 @@ TimeRange::~TimeRange()
 
 TimeRange &TimeRange::operator=(const TimeRange &other)
 {
-    d->start = other.d->start;
-    d->end = other.d->end;
+    if (this != &other) {
+        d->start = other.d->start;
+        d->end = other.d->end;
+    }
+
     return *this;
 }
 

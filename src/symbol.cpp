@@ -95,7 +95,10 @@ Symbol::~Symbol()
 
 Symbol &Symbol::operator=(const Symbol &other)
 {
-    d = other.d;
+    if (this != &other) {
+        d = other.d;
+    }
+
     return *this;
 }
 
