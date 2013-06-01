@@ -134,7 +134,8 @@ TimeRange TimeRange::timeRangeToNow()
 // static
 TimeRange TimeRange::timeRangeFromNow()
 {
-    return TimeRange(QDateTime::currentDateTime().toMSecsSinceEpoch(), 0);
+    return TimeRange(QDateTime::currentDateTime().toMSecsSinceEpoch(),
+                     std::numeric_limits<qint64>::max());
 }
 
 }; // namespace QZeitgeist
