@@ -35,8 +35,8 @@ enum StringType { PlainString, RegExpString };
 void QZEITGEIST_EXPORT registerMimeType(const QString &mimeType, const QUrl &url, StringType sType = PlainString);
 QUrl QZEITGEIST_EXPORT getInterpretationUrl(const QString &mimeType);
 
-void QZEITGEIST_EXPORT registerUrlScheme(const QString &urlScheme, const QString &manifestationType);
-QString QZEITGEIST_EXPORT getManifestation(const QUrl &url);
+void QZEITGEIST_EXPORT registerUrlScheme(const QString &urlScheme, const QUrl &manifestationType);
+QUrl QZEITGEIST_EXPORT getManifestation(const QUrl &url);
 }; // namespace MimeType
 
 }; // namespace QZeitgeist

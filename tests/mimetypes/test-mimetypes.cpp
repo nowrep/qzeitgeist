@@ -9,7 +9,7 @@ using namespace QZeitgeist;
 void MimeTypeTest::mimeTextPlain()
 {
     QUrl result = MimeType::getInterpretationUrl("text/plain");
-    QUrl expected = QUrl(QZEITGEIST_NFO_TEXT_DOCUMENT);
+    QUrl expected = QZEITGEIST_NFO_TEXT_DOCUMENT;
 
     QCOMPARE(result, expected);
 }
@@ -24,29 +24,29 @@ void MimeTypeTest::mimeNone()
 void MimeTypeTest::mimeRegExp()
 {
     QUrl result = MimeType::getInterpretationUrl("application/x-applix-FOOOOBAR!");
-    QUrl expected = QUrl(QZEITGEIST_NFO_DOCUMENT);
+    QUrl expected = QZEITGEIST_NFO_DOCUMENT;
 
     QCOMPARE(result, expected);
 
     result = MimeType::getInterpretationUrl("application/x-applix-spreadsheet");
-    expected = QUrl(QZEITGEIST_NFO_SPREADSHEET);
+    expected = QZEITGEIST_NFO_SPREADSHEET;
 
     QCOMPARE(result, expected);
 }
 
 void MimeTypeTest::schemeFile()
 {
-    QString result = MimeType::getManifestation(QUrl("file:///tmp/foo.txt"));
-    QString expected = QString(QZEITGEIST_NFO_FILE_DATA_OBJECT);
+    QUrl result = MimeType::getManifestation(QUrl("file:///tmp/foo.txt"));
+    QUrl expected = QZEITGEIST_NFO_FILE_DATA_OBJECT;
 
     QCOMPARE(result, expected);
 }
 
 void MimeTypeTest::schemeNone()
 {
-    QString result = MimeType::getManifestation(QUrl("asdf://asdfasdf"));
+    QUrl result = MimeType::getManifestation(QUrl("asdf://asdfasdf"));
 
-    QCOMPARE(result, QString());
+    QCOMPARE(result, QUrl());
 }
 
 void MimeTypeTest::newMime()
@@ -67,10 +67,10 @@ void MimeTypeTest::newMimeRegExp()
 
 void MimeTypeTest::newScheme()
 {
-    MimeType::registerUrlScheme("foo://", "Foo-Bar");
+    MimeType::registerUrlScheme("foo://", QUrl("asdf://foo.bar"));
 
-    QCOMPARE(MimeType::getManifestation(QUrl("foo://bar.com/foo")), QString("Foo-Bar"));
-    QCOMPARE(MimeType::getManifestation(QUrl("boo://far.com/boo")), QString());
+    QCOMPARE(MimeType::getManifestation(QUrl("foo://bar.com/foo")), QUrl("asdf://foo.bar"));
+    QCOMPARE(MimeType::getManifestation(QUrl("boo://far.com/boo")), QUrl());
 }
 
 QTEST_MAIN(MimeTypeTest)

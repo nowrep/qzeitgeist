@@ -30,9 +30,9 @@ void SymbolTest::nullSymbols()
     Symbol s1(nullUrl);
 
     QCOMPARE(s1.isA(nullUrl), false);
-    QCOMPARE(s1.isA(QUrl(QZEITGEIST_NFO_MEDIA)), false);
+    QCOMPARE(s1.isA(QZEITGEIST_NFO_MEDIA), false);
 
-    Symbol s2(QUrl(QZEITGEIST_NFO_MEDIA));
+    Symbol s2(QZEITGEIST_NFO_MEDIA);
 
     QCOMPARE(s2.isA(nullUrl), false);
 }
@@ -51,19 +51,19 @@ void SymbolTest::notUriSymbols()
 
 void SymbolTest::urisEqual()
 {
-    Symbol s1(QUrl(QZEITGEIST_NFO_AUDIO));
+    Symbol s1(QZEITGEIST_NFO_AUDIO);
 
-    QCOMPARE(s1.isA(QUrl(QZEITGEIST_NFO_AUDIO)), true);
+    QCOMPARE(s1.isA(QZEITGEIST_NFO_AUDIO), true);
 }
 
 void SymbolTest::urisInheritance()
 {
-    Symbol sVector(QUrl(QZEITGEIST_NFO_VECTOR_IMAGE));
-    Symbol sMedia(QUrl(QZEITGEIST_NFO_MEDIA));
+    Symbol sVector(QZEITGEIST_NFO_VECTOR_IMAGE);
+    Symbol sMedia(QZEITGEIST_NFO_MEDIA);
 
-    QCOMPARE(sVector.isA(QUrl(QZEITGEIST_NFO_MEDIA)), true);
-    QCOMPARE(sMedia.isA(QUrl(QZEITGEIST_NFO_VECTOR_IMAGE)), false);
-    QCOMPARE(sMedia.isA(QUrl(QZEITGEIST_NFO_SOFTWARE)), false);
+    QCOMPARE(sVector.isA(QZEITGEIST_NFO_MEDIA), true);
+    QCOMPARE(sMedia.isA(QZEITGEIST_NFO_VECTOR_IMAGE), false);
+    QCOMPARE(sMedia.isA(QZEITGEIST_NFO_SOFTWARE), false);
 }
 
 static void checkUris(const QList<QUrl> &uris)
@@ -77,9 +77,9 @@ static void checkUris(const QList<QUrl> &uris)
 
 void SymbolTest::urisValid()
 {
-    Symbol sMedia(QUrl(QZEITGEIST_NFO_MEDIA));
-    Symbol sVector(QUrl(QZEITGEIST_NFO_VECTOR_IMAGE));
-    Symbol sSoftware(QUrl(QZEITGEIST_NFO_SOFTWARE));
+    Symbol sMedia(QZEITGEIST_NFO_MEDIA);
+    Symbol sVector(QZEITGEIST_NFO_VECTOR_IMAGE);
+    Symbol sSoftware(QZEITGEIST_NFO_SOFTWARE);
 
     checkUris(sMedia.children());
     checkUris(sMedia.parents());

@@ -53,15 +53,15 @@ QUrl MimeType::getInterpretationUrl(const QString &mimeType)
     return QUrl(uri);
 }
 
-void MimeType::registerUrlScheme(const QString &urlScheme, const QString &manifestationType)
+void MimeType::registerUrlScheme(const QString &urlScheme, const QUrl &manifestationType)
 {
     QByteArray schemeData = urlScheme.toUtf8();
-    QByteArray manifData = manifestationType.toUtf8();
+    QByteArray manifData = manifestationType.toString().toUtf8();
 
     zeitgeist_register_uri_scheme(schemeData.constData(), manifData.constData());
 }
 
-QString MimeType::getManifestation(const QUrl &url)
+QUrl MimeType::getManifestation(const QUrl &url)
 {
     QByteArray urlData = url.toString().toUtf8();
 
@@ -70,7 +70,7 @@ QString MimeType::getManifestation(const QUrl &url)
 
     g_free((void *)result);
 
-    return manifestation;
+    return QUrl(manifestation);
 }
 
 }; // namespace QZeitgeist
