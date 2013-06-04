@@ -46,7 +46,6 @@ class SymbolPrivate
 {
 public:
     explicit SymbolPrivate(const QUrl &url);
-
     bool compare(const SymbolPrivate &other) const;
     bool isA(const QUrl &url) const;
 
@@ -70,9 +69,11 @@ SymbolPrivate::SymbolPrivate(const QUrl &url)
 
 bool SymbolPrivate::compare(const SymbolPrivate &other) const
 {
-    return symbolUrl == other.symbolUrl && displayName == other.displayName &&
-           description == other.description && parents == other.parents &&
-           children == other.children;
+    return symbolUrl == other.symbolUrl
+        && displayName == other.displayName
+        && description == other.description
+        && parents == other.parents
+        && children == other.children;
 }
 
 bool SymbolPrivate::isA(const QUrl &url) const

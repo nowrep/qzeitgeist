@@ -34,7 +34,7 @@ class SymbolPrivate;
 class QZEITGEIST_EXPORT Symbol
 {
 public:
-    explicit Symbol(const QUrl &url);
+    Symbol(const QUrl &url);
     ~Symbol();
 
     Symbol &operator=(const Symbol &other);
