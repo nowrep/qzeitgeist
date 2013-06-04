@@ -31,25 +31,27 @@ class TimeRangePrivate;
 class QZEITGEIST_EXPORT TimeRange
 {
 public:
-    explicit TimeRange(qint64 start, qint64 end);
+    TimeRange(qint64 start = -1, qint64 end = -1);
     TimeRange(const TimeRange &other);
     ~TimeRange();
 
     TimeRange &operator=(const TimeRange &other);
     bool operator==(const TimeRange &other) const;
 
-    bool isValid() const;
     qint64 start() const;
     qint64 end() const;
 
+    bool isValid() const;
     TimeRange intersect(const TimeRange &timeRange) const;
+
+    HANDLE createHandle() const;
 
     static TimeRange timeRangeAnytime();
     static TimeRange timeRangeToNow();
     static TimeRange timeRangeFromNow();
 
 private:
-    QScopedPointer<TimeRangePrivate> d;
+    const QScopedPointer<TimeRangePrivate> d;
 };
 
 }; // namespace QZeitgeist

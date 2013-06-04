@@ -22,22 +22,26 @@ extern "C" {
 }
 
 #include "timerange.h"
-#include "timerange_p.h"
 #include <limits>
 #include <QDateTime>
 
 namespace QZeitgeist
 {
 
-TimeRangePrivate::TimeRangePrivate(qint64 start_, qint64 end_)
-    : start(start_)
-    , end(end_)
+class TimeRangePrivate
 {
-}
+public:
+    explicit TimeRangePrivate();
+    bool compare(const TimeRangePrivate &other) const;
+    void copy(const TimeRangePrivate &other);
 
-TimeRangePrivate::TimeRangePrivate(const TimeRangePrivate &other)
-    : start(other.start)
-    , end(other.end)
+    qint64 start;
+    qint64 end;
+};
+
+TimeRangePrivate::TimeRangePrivate()
+    : start(-1)
+    , end(-1)
 {
 }
 
@@ -46,20 +50,26 @@ bool TimeRangePrivate::compare(const TimeRangePrivate &other) const
     return start == other.start && end == other.end;
 }
 
-::ZeitgeistTimeRange *timeRangeToNative(const TimeRange &other)
+void TimeRangePrivate::copy(const TimeRangePrivate &other)
 {
-    return zeitgeist_time_range_new(other.start(), other.end());
+    if (this != &other) {
+        start = other.start;
+        end = other.end;
+    }
 }
 
 // class TimeRange
 TimeRange::TimeRange(qint64 start, qint64 end)
-    : d(new TimeRangePrivate(start, end))
+    : d(new TimeRangePrivate)
 {
+    d->start = start;
+    d->end = end;
 }
 
 TimeRange::TimeRange(const TimeRange &other)
-    : d(new TimeRangePrivate(*other.d))
+    : d(new TimeRangePrivate)
 {
+    d->copy(*other.d);
 }
 
 TimeRange::~TimeRange()
@@ -68,22 +78,13 @@ TimeRange::~TimeRange()
 
 TimeRange &TimeRange::operator=(const TimeRange &other)
 {
-    if (this != &other) {
-        d->start = other.d->start;
-        d->end = other.d->end;
-    }
-
+    d->copy(*other.d);
     return *this;
 }
 
 bool TimeRange::operator==(const TimeRange &other) const
 {
     return d->compare(*other.d);
-}
-
-bool TimeRange::isValid() const
-{
-    return d->start > -1 && d->end > -1 && d->start <= d->end;
 }
 
 qint64 TimeRange::start() const
@@ -96,27 +97,24 @@ qint64 TimeRange::end() const
     return d->end;
 }
 
+bool TimeRange::isValid() const
+{
+    return d->start > -1 && d->end > -1 && d->start <= d->end;
+}
+
 TimeRange TimeRange::intersect(const TimeRange &timeRange) const
 {
-    ::ZeitgeistTimeRange *thisTr = timeRangeToNative(*this);
-    ::ZeitgeistTimeRange *otherTr = timeRangeToNative(timeRange);
-    ::ZeitgeistTimeRange *resultTr = zeitgeist_time_range_intersect(thisTr, otherTr);
-
-    if (!resultTr) {
-        g_object_unref(thisTr);
-        g_object_unref(otherTr);
-
-        return TimeRange(-1, -1);
+    // Make sure both time ranges are valid and do intersects
+    if (!isValid() || !timeRange.isValid() || start() > timeRange.end()) {
+        return TimeRange();
     }
 
-    TimeRange result(zeitgeist_time_range_get_start(resultTr),
-                     zeitgeist_time_range_get_end(resultTr));
+    return TimeRange(qMax(start(), timeRange.start()), qMin(end(), timeRange.end()));
+}
 
-    g_object_unref(thisTr);
-    g_object_unref(otherTr);
-    g_object_unref(resultTr);
-
-    return result;
+HANDLE TimeRange::createHandle() const
+{
+    return zeitgeist_time_range_new(start(), end());
 }
 
 // static
