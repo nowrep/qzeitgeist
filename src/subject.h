@@ -72,6 +72,9 @@ public:
 
     HANDLE createHandle() const;
 
+    friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const Subject &subject);
+    friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Subject &subject);
+
 private:
     const QScopedPointer<SubjectPrivate> d;
 };

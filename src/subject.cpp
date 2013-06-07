@@ -24,6 +24,7 @@ extern "C" {
 #include "subject.h"
 #include <QtCore/QString>
 #include <QtCore/QUrl>
+#include <QtCore/QDebug>
 
 namespace QZeitgeist
 {
@@ -232,6 +233,47 @@ HANDLE Subject::createHandle() const
                                             passData(mimeData),
                                             passData(textData),
                                             passData(storageData));
+}
+
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const Subject &subject)
+{
+    stream << streamVersion;
+    stream << subject.d->url;
+    stream << subject.d->currentUrl;
+    stream << subject.d->origin;
+    stream << subject.d->currentOrigin;
+    stream << subject.d->interpretation;
+    stream << subject.d->manifestation;
+    stream << subject.d->text;
+    stream << subject.d->storage;
+    stream << subject.d->mimeType;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Subject &subject)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "Subject: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> subject.d->url;
+    stream >> subject.d->currentUrl;
+    stream >> subject.d->origin;
+    stream >> subject.d->currentOrigin;
+    stream >> subject.d->interpretation;
+    stream >> subject.d->manifestation;
+    stream >> subject.d->text;
+    stream >> subject.d->storage;
+    stream >> subject.d->mimeType;
+
+    return stream;
 }
 
 }; // namespace QZeitgeist

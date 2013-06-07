@@ -23,6 +23,7 @@ extern "C" {
 
 #include "event.h"
 #include <QtCore/QUrl>
+#include <QtCore/QDebug>
 
 namespace QZeitgeist
 {
@@ -37,7 +38,6 @@ static GPtrArray *convertToPtrArray(const QList<Subject> &subjects)
 
     return array;
 }
-
 
 class EventPrivate
 {
@@ -229,6 +229,45 @@ HANDLE Event::createHandle() const
 
     // Is it necessary here?
     g_ptr_array_unref(subjects);
+}
+
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const Event &event)
+{
+    stream << streamVersion;
+    stream << event.d->id;
+    stream << event.d->timestamp;
+    stream << event.d->origin;
+    stream << event.d->actor;
+    stream << event.d->interpretation;
+    stream << event.d->manifestation;
+    stream << event.d->payload;
+    stream << event.d->subjects;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Event &event)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "Event: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> event.d->id;
+    stream >> event.d->timestamp;
+    stream >> event.d->origin;
+    stream >> event.d->actor;
+    stream >> event.d->interpretation;
+    stream >> event.d->manifestation;
+    stream >> event.d->payload;
+    stream >> event.d->subjects;
+
+    return stream;
 }
 
 }; // namespace QZeitgeist
