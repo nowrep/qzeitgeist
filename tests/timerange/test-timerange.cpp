@@ -6,6 +6,23 @@
 
 using namespace QZeitgeist;
 
+void TimeRangeTest::streamOperators()
+{
+    TimeRange tr(23, 60);
+
+    QByteArray data;
+    QDataStream streamIn(&data, QIODevice::WriteOnly);
+    streamIn << tr;
+
+    QVERIFY(data.isEmpty() == false);
+
+    TimeRange tr2;
+    QDataStream streamOut(data);
+    streamOut >> tr2;
+
+    QVERIFY(tr == tr2);
+}
+
 void TimeRangeTest::create()
 {
     TimeRange tr(0, 1);

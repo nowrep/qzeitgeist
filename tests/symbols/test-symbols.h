@@ -6,6 +6,7 @@ class SymbolTest : public QObject
 
 private slots:
     void sharedData();
+    void streamOperators();
 
     void nullSymbols();
     void notUriSymbols();

@@ -24,6 +24,23 @@ void SymbolTest::sharedData()
     QCOMPARE(s3.url(), s4.url());
 }
 
+void SymbolTest::streamOperators()
+{
+    Symbol symbol(QZEITGEIST_NFO_AUDIO);
+
+    QByteArray data;
+    QDataStream streamIn(&data, QIODevice::WriteOnly);
+    streamIn << symbol;
+
+    QVERIFY(data.isEmpty() == false);
+
+    Symbol symbol2;
+    QDataStream streamOut(data);
+    streamOut >> symbol2;
+
+    QVERIFY(symbol == symbol2);
+}
+
 void SymbolTest::nullSymbols()
 {
     QUrl nullUrl;
