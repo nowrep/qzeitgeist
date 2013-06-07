@@ -23,6 +23,7 @@ extern "C" {
 
 #include "symbol.h"
 #include <QtCore/QUrl>
+#include <QtCore/QDebug>
 
 static QList<QUrl> convertGList(GList *list)
 {
@@ -136,6 +137,39 @@ QList<QUrl> Symbol::children() const
 bool Symbol::isA(const QUrl &url) const
 {
     return d->isA(url);
+}
+
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const Symbol &symbol)
+{
+    stream << streamVersion;
+    stream << symbol.d->symbolUrl;
+    stream << symbol.d->displayName;
+    stream << symbol.d->description;
+    stream << symbol.d->parents;
+    stream << symbol.d->children;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Symbol &symbol)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "Symbol: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> symbol.d->symbolUrl;
+    stream >> symbol.d->displayName;
+    stream >> symbol.d->description;
+    stream >> symbol.d->parents;
+    stream >> symbol.d->children;
+
+    return stream;
 }
 
 }; // namespace QZeitgeist

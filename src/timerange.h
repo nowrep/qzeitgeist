@@ -50,6 +50,9 @@ public:
     static TimeRange timeRangeToNow();
     static TimeRange timeRangeFromNow();
 
+    friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const TimeRange &tr);
+    friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);
+
 private:
     const QScopedPointer<TimeRangePrivate> d;
 };

@@ -23,7 +23,8 @@ extern "C" {
 
 #include "timerange.h"
 #include <limits>
-#include <QDateTime>
+#include <QtCore/QDateTime>
+#include <QtCore/QDebug>
 
 namespace QZeitgeist
 {
@@ -134,6 +135,33 @@ TimeRange TimeRange::timeRangeFromNow()
 {
     return TimeRange(QDateTime::currentDateTime().toMSecsSinceEpoch(),
                      std::numeric_limits<qint64>::max());
+}
+
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const TimeRange &tr)
+{
+    stream << streamVersion;
+    stream << tr.d->start;
+    stream << tr.d->end;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, TimeRange &tr)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "TimeRange: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> tr.d->start;
+    stream >> tr.d->end;
+
+    return stream;
 }
 
 }; // namespace QZeitgeist

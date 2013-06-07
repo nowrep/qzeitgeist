@@ -49,6 +49,9 @@ public:
 
     bool isA(const QUrl &url) const;
 
+    friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const Symbol &symbol);
+    friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Symbol &symbol);
+
 private:
     QSharedPointer<SymbolPrivate> d;
 };
