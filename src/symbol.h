@@ -23,6 +23,7 @@
 #include "qzeitgeist.h"
 #include <QtCore/QSharedPointer>
 #include <QtCore/QList>
+#include <QtCore/QUrl>
 
 class QUrl;
 
@@ -34,20 +35,22 @@ class SymbolPrivate;
 class QZEITGEIST_EXPORT Symbol
 {
 public:
-    Symbol(const QUrl &url);
+    Symbol(const QUrl &url = QUrl());
     ~Symbol();
 
     Symbol &operator=(const Symbol &other);
     bool operator==(const Symbol &other) const;
 
     QUrl url() const;
+    void setUrl(const QUrl &url);
+
     QString displayName() const;
     QString description() const;
-
     QList<QUrl> parents() const;
     QList<QUrl> children() const;
 
     bool isA(const QUrl &url) const;
+    bool isValid() const;
 
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const Symbol &symbol);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Symbol &symbol);

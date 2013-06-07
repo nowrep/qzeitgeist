@@ -49,6 +49,7 @@ public:
     explicit SymbolPrivate(const QUrl &url);
     bool compare(const SymbolPrivate &other) const;
     bool isA(const QUrl &url) const;
+    void setUrl(const QUrl &url);
 
     QUrl symbolUrl;
     QString displayName;
@@ -58,14 +59,8 @@ public:
 };
 
 SymbolPrivate::SymbolPrivate(const QUrl &url)
-    : symbolUrl(url)
 {
-    QByteArray urlData = url.toString().toUtf8();
-
-    displayName = zeitgeist_symbol_get_display_name(urlData.constData());
-    description = zeitgeist_symbol_get_description(urlData.constData());
-    parents = convertGList(zeitgeist_symbol_get_all_parents(urlData.constData()));
-    children = convertGList(zeitgeist_symbol_get_all_children(urlData.constData()));
+    setUrl(url);
 }
 
 bool SymbolPrivate::compare(const SymbolPrivate &other) const
@@ -83,6 +78,18 @@ bool SymbolPrivate::isA(const QUrl &url) const
     QByteArray symbolData = symbolUrl.toString().toUtf8();
 
     return zeitgeist_symbol_is_a(symbolData.constData(), urlData.constData());
+}
+
+void SymbolPrivate::setUrl(const QUrl &url)
+{
+    symbolUrl = url;
+
+    QByteArray urlData = url.toString().toUtf8();
+
+    displayName = zeitgeist_symbol_get_display_name(urlData.constData());
+    description = zeitgeist_symbol_get_description(urlData.constData());
+    parents = convertGList(zeitgeist_symbol_get_all_parents(urlData.constData()));
+    children = convertGList(zeitgeist_symbol_get_all_children(urlData.constData()));
 }
 
 // class Symbol
@@ -114,6 +121,11 @@ QUrl Symbol::url() const
     return d->symbolUrl;
 }
 
+void Symbol::setUrl(const QUrl &url)
+{
+    d->setUrl(url);
+}
+
 QString Symbol::displayName() const
 {
     return d->displayName;
@@ -137,6 +149,11 @@ QList<QUrl> Symbol::children() const
 bool Symbol::isA(const QUrl &url) const
 {
     return d->isA(url);
+}
+
+bool Symbol::isValid() const
+{
+    return !d->symbolUrl.isEmpty();
 }
 
 static const int streamVersion = 1;
