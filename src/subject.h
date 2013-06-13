@@ -71,6 +71,7 @@ public:
     bool matchesTemplate(const Subject &subject) const;
 
     HANDLE createHandle() const;
+    static Subject fromHandle(HANDLE handle);
 
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const Subject &subject);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Subject &subject);

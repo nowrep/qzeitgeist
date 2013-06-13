@@ -195,8 +195,8 @@ void Subject::setMimeType(const QString &mimeType)
 
 bool Subject::matchesTemplate(const Subject &subject) const
 {
-    ::ZeitgeistSubject *self = (::ZeitgeistSubject *)createHandle();
-    ::ZeitgeistSubject *other = (::ZeitgeistSubject *)subject.createHandle();
+    ZeitgeistSubject *self = (::ZeitgeistSubject *)createHandle();
+    ZeitgeistSubject *other = (::ZeitgeistSubject *)subject.createHandle();
 
     bool ret = zeitgeist_subject_matches_template(self, other);
 
@@ -233,6 +233,25 @@ HANDLE Subject::createHandle() const
                                             passData(mimeData),
                                             passData(textData),
                                             passData(storageData));
+}
+
+// static
+Subject Subject::fromHandle(HANDLE handle)
+{
+    ZeitgeistSubject *subject = (ZeitgeistSubject *)handle;
+    Subject sub;
+
+    sub.d->url = QUrl(zeitgeist_subject_get_uri(subject));
+    sub.d->currentUrl = QUrl(zeitgeist_subject_get_current_uri(subject));
+    sub.d->origin = QUrl(zeitgeist_subject_get_origin(subject));
+    sub.d->currentOrigin = QUrl(zeitgeist_subject_get_current_origin(subject));
+    sub.d->interpretation = QUrl(zeitgeist_subject_get_interpretation(subject));
+    sub.d->manifestation = QUrl(zeitgeist_subject_get_manifestation(subject));
+    sub.d->text = zeitgeist_subject_get_text(subject);
+    sub.d->storage = zeitgeist_subject_get_storage(subject);
+    sub.d->mimeType = zeitgeist_subject_get_mimetype(subject);
+
+    return sub;
 }
 
 static const int streamVersion = 1;

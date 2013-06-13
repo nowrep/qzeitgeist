@@ -39,6 +39,30 @@ static GPtrArray *convertToPtrArray(const QList<Subject> &subjects)
     return array;
 }
 
+static QList<Subject> convertFromPtrArray(GPtrArray *array)
+{
+    QList<Subject> list;
+
+    for (unsigned i = 0; i < array->len; ++i) {
+        Subject subject = Subject::fromHandle(g_ptr_array_index(array, i));
+        list.append(subject);
+    }
+
+    return list;
+}
+
+static GByteArray *convertToByteArray(const QByteArray &array)
+{
+    GByteArray *garray = g_byte_array_new();
+    g_byte_array_append(garray, (guint8 *)array.constData(), array.size());
+    return garray;
+}
+
+static QByteArray convertFromByteArray(GByteArray *array)
+{
+    return QByteArray((const char *)array->data, (int) array->len);
+}
+
 class EventPrivate
 {
 public:
@@ -216,19 +240,40 @@ HANDLE Event::createHandle() const
     QByteArray actorData = d->actor.toString().toUtf8();
     QByteArray interpretationData = d->interpretation.toString().toUtf8();
     QByteArray manifestationData = d->manifestation.toString().toUtf8();
+    GByteArray *payload = convertToByteArray(d->payload);
     GPtrArray *subjects = convertToPtrArray(d->subjects);
 
-    ::ZeitgeistEvent *event = zeitgeist_event_new();
+    ZeitgeistEvent *event = zeitgeist_event_new();
     zeitgeist_event_set_id(event, d->id);
     zeitgeist_event_set_timestamp(event, d->timestamp);
     zeitgeist_event_set_origin(event, originData.constData());
     zeitgeist_event_set_actor(event, actorData.constData());
     zeitgeist_event_set_interpretation(event, interpretationData.constData());
     zeitgeist_event_set_manifestation(event, manifestationData.constData());
+    zeitgeist_event_set_payload(event, payload);
     zeitgeist_event_set_subjects(event, subjects);
 
     // Is it necessary here?
+    g_byte_array_unref(payload);
     g_ptr_array_unref(subjects);
+}
+
+// static
+Event Event::fromHandle(HANDLE handle)
+{
+    ZeitgeistEvent *event = (ZeitgeistEvent *)handle;
+    Event ev;
+
+    ev.d->id = zeitgeist_event_get_id(event);
+    ev.d->timestamp = zeitgeist_event_get_timestamp(event);
+    ev.d->origin = QUrl(zeitgeist_event_get_origin(event));
+    ev.d->actor = QUrl(zeitgeist_event_get_actor(event));
+    ev.d->interpretation = QUrl(zeitgeist_event_get_interpretation(event));
+    ev.d->manifestation = QUrl(zeitgeist_event_get_manifestation(event));
+    ev.d->payload = convertFromByteArray(zeitgeist_event_get_payload(event));
+    ev.d->subjects = convertFromPtrArray(zeitgeist_event_get_subjects(event));
+
+    return ev;
 }
 
 static const int streamVersion = 1;
