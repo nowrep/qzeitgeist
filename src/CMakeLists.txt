@@ -17,6 +17,7 @@ set(qzeitgeist_HEADERS
     timerange.h
     subject.h
     event.h
+    resultset.h
     qzeitgeist.h
     qzeitgeist_defines.h
     ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_version.h
@@ -28,6 +29,7 @@ set(qzeitgeist_SRCS
     timerange.cpp
     subject.cpp
     event.cpp
+    resultset.cpp
 )
 
 configure_file(qzeitgeist_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_version.h @ONLY)
