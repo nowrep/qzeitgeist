@@ -23,7 +23,6 @@ extern "C" {
 
 #include "resultset.h"
 #include "event.h"
-#include <QtCore/QDebug>
 
 namespace QZeitgeist
 {
