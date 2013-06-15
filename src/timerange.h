@@ -26,8 +26,6 @@
 namespace QZeitgeist
 {
 
-class TimeRangePrivate;
-
 class QZEITGEIST_EXPORT TimeRange
 {
 public:
@@ -54,7 +52,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);
 
 private:
-    const QScopedPointer<TimeRangePrivate> d;
+    const QScopedPointer<class TimeRangePrivate> d;
 };
 
 }; // namespace QZeitgeist

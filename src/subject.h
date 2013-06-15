@@ -29,8 +29,6 @@ class QString;
 namespace QZeitgeist
 {
 
-class SubjectPrivate;
-
 class QZEITGEIST_EXPORT Subject
 {
 public:
@@ -77,7 +75,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Subject &subject);
 
 private:
-    const QScopedPointer<SubjectPrivate> d;
+    const QScopedPointer<class SubjectPrivate> d;
 };
 
 }; // namespace QZeitgeist

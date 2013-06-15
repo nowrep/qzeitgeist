@@ -30,8 +30,6 @@ class QUrl;
 namespace QZeitgeist
 {
 
-class SymbolPrivate;
-
 class QZEITGEIST_EXPORT Symbol
 {
 public:
@@ -56,7 +54,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Symbol &symbol);
 
 private:
-    QSharedPointer<SymbolPrivate> d;
+    QSharedPointer<class SymbolPrivate> d;
 };
 
 }; // namespace QZeitgeist
