@@ -67,20 +67,16 @@ TimeRange::TimeRange(qint64 start, qint64 end)
     d->end = end;
 }
 
-TimeRange::TimeRange(const TimeRange &other)
-    : d(new TimeRangePrivate)
-{
-    d->copy(*other.d);
-}
-
 TimeRange::~TimeRange()
 {
-    delete d;
 }
 
 TimeRange &TimeRange::operator=(const TimeRange &other)
 {
-    d->copy(*other.d);
+    if (this != &other) {
+        d = other.d;
+    }
+
     return *this;
 }
 

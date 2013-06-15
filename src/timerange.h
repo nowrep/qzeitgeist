@@ -21,6 +21,7 @@
 #define QZEITGEIST_TIMERANGE_H_
 
 #include "qzeitgeist.h"
+#include <QtCore/QSharedPointer>
 
 namespace QZeitgeist
 {
@@ -29,7 +30,6 @@ class QZEITGEIST_EXPORT TimeRange
 {
 public:
     TimeRange(qint64 start = -1, qint64 end = -1);
-    TimeRange(const TimeRange &other);
     ~TimeRange();
 
     TimeRange &operator=(const TimeRange &other);
@@ -51,7 +51,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);
 
 private:
-    class TimeRangePrivate *const d;
+    QSharedPointer<class TimeRangePrivate> d;
 };
 
 }; // namespace QZeitgeist
