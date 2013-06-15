@@ -23,6 +23,7 @@ extern "C" {
 
 #include "event.h"
 #include <QtCore/QUrl>
+#include <QtCore/QAtomicInt>
 #include <QtCore/QDebug>
 
 namespace QZeitgeist
@@ -67,9 +68,10 @@ class EventPrivate
 {
 public:
     explicit EventPrivate();
+    EventPrivate(const EventPrivate &other);
     bool compare(const EventPrivate &other) const;
-    void copy(const EventPrivate &other);
 
+    QAtomicInt ref;
     quint32 id;
     qint64 timestamp;
     QUrl origin;
@@ -81,8 +83,22 @@ public:
 };
 
 EventPrivate::EventPrivate()
-    : id(0)
+    : ref(1)
+    , id(0)
     , timestamp(0)
+{
+}
+
+EventPrivate::EventPrivate(const EventPrivate &other)
+    : ref(1)
+    , id(other.id)
+    , timestamp(other.timestamp)
+    , origin(other.origin)
+    , actor(other.actor)
+    , interpretation(other.interpretation)
+    , manifestation(other.manifestation)
+    , payload(other.payload)
+    , subjects(other.subjects)
 {
 }
 
@@ -98,20 +114,6 @@ bool EventPrivate::compare(const EventPrivate &other) const
            && subjects == other.subjects;
 }
 
-void EventPrivate::copy(const EventPrivate &other)
-{
-    if (this != &other) {
-        id = other.id;
-        timestamp = other.timestamp;
-        origin = other.origin;
-        actor = other.actor;
-        interpretation = other.interpretation;
-        manifestation = other.manifestation;
-        payload = other.payload;
-        subjects = other.subjects;
-    }
-}
-
 // class Event
 Event::Event()
     : d(new EventPrivate)
@@ -119,18 +121,21 @@ Event::Event()
 }
 
 Event::Event(const Event &other)
-    : d(new EventPrivate)
+    : d(other.d)
 {
-    d->copy(*other.d);
+    d->ref.ref();
 }
 
 Event::~Event()
 {
+    if (!d->ref.deref()) {
+        delete d;
+    }
 }
 
-Event &Event::operator=(const Event &other)
+Event &Event::operator=(Event &other)
 {
-    d->copy(*other.d);
+    qAtomicAssign(d, other.d);
     return *this;
 }
 
@@ -151,6 +156,8 @@ quint32 Event::id() const
 
 void Event::setId(quint32 id)
 {
+    detach();
+
     d->id = id;
 }
 
@@ -161,6 +168,8 @@ qint64 Event::timestamp() const
 
 void Event::setTimestamp(qint64 timestamp)
 {
+    detach();
+
     d->timestamp = timestamp;
 }
 
@@ -171,6 +180,8 @@ QUrl Event::origin() const
 
 void Event::setOrigin(const QUrl &origin)
 {
+    detach();
+
     d->origin = origin;
 }
 
@@ -181,6 +192,8 @@ QUrl Event::actor() const
 
 void Event::setActor(const QUrl &actor)
 {
+    detach();
+
     d->actor = actor;
 }
 
@@ -191,6 +204,8 @@ QUrl Event::interpretation() const
 
 void Event::setInterpretation(const QUrl &interpretation)
 {
+    detach();
+
     d->interpretation = interpretation;
 }
 
@@ -201,6 +216,8 @@ QUrl Event::manifestation() const
 
 void Event::setManifestation(const QUrl &manifestation)
 {
+    detach();
+
     d->manifestation = manifestation;
 }
 
@@ -211,6 +228,8 @@ QByteArray Event::payload() const
 
 void Event::setPayload(const QByteArray &payload)
 {
+    detach();
+
     d->payload = payload;
 }
 
@@ -221,16 +240,22 @@ QList<Subject> Event::subjects() const
 
 void Event::setSubjects(const QList<Subject> &subjects)
 {
+    detach();
+
     d->subjects = subjects;
 }
 
 void Event::removeSubject(const Subject &subject)
 {
+    detach();
+
     d->subjects.removeOne(subject);
 }
 
 void Event::addSubject(const Subject &subject)
 {
+    detach();
+
     d->subjects.append(subject);
 }
 
@@ -313,6 +338,11 @@ QDataStream &operator>>(QDataStream &stream, Event &event)
     stream >> event.d->subjects;
 
     return stream;
+}
+
+void Event::detach()
+{
+    qAtomicDetach(d);
 }
 
 }; // namespace QZeitgeist

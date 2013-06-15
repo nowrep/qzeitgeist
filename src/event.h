@@ -22,15 +22,12 @@
 
 #include "qzeitgeist.h"
 #include "subject.h"
-#include <QtCore/QScopedPointer>
 #include <QtCore/QList>
 
 class QUrl;
 
 namespace QZeitgeist
 {
-
-class EventPrivate;
 
 class QZEITGEIST_EXPORT Event
 {
@@ -39,7 +36,7 @@ public:
     Event(const Event &other);
     ~Event();
 
-    Event &operator=(const Event &other);
+    Event &operator=(Event &other);
     bool operator==(const Event &other) const;
 
     bool isValid() const;
@@ -77,7 +74,9 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Event &event);
 
 private:
-    QScopedPointer<EventPrivate> d;
+    void detach();
+
+    class EventPrivate *d;
 };
 
 }; // namespace QZeitgeist
