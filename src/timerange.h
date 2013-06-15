@@ -21,7 +21,6 @@
 #define QZEITGEIST_TIMERANGE_H_
 
 #include "qzeitgeist.h"
-#include <QtCore/QScopedPointer>
 
 namespace QZeitgeist
 {
@@ -52,7 +51,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);
 
 private:
-    const QScopedPointer<class TimeRangePrivate> d;
+    class TimeRangePrivate * const d;
 };
 
 }; // namespace QZeitgeist

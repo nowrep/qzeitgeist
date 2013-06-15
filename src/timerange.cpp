@@ -75,6 +75,7 @@ TimeRange::TimeRange(const TimeRange &other)
 
 TimeRange::~TimeRange()
 {
+    delete d;
 }
 
 TimeRange &TimeRange::operator=(const TimeRange &other)

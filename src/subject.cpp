@@ -89,6 +89,7 @@ Subject::Subject(const Subject &other)
 
 Subject::~Subject()
 {
+    delete d;
 }
 
 bool Subject::operator==(const Subject &other) const

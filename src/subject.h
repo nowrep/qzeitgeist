@@ -21,7 +21,6 @@
 #define QZEITGEIST_SUBJECT_H_
 
 #include "qzeitgeist.h"
-#include <QtCore/QScopedPointer>
 
 class QUrl;
 class QString;
@@ -75,7 +74,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Subject &subject);
 
 private:
-    const QScopedPointer<class SubjectPrivate> d;
+    class SubjectPrivate * const d;
 };
 
 }; // namespace QZeitgeist
