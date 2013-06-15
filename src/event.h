@@ -36,7 +36,7 @@ public:
     Event(const Event &other);
     ~Event();
 
-    Event &operator=(Event &other);
+    Event &operator=(const Event &other);
     bool operator==(const Event &other) const;
 
     bool isValid() const;

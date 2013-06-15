@@ -22,6 +22,7 @@ extern "C" {
 }
 
 #include "subject.h"
+#include <QtCore/QAtomicInt>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 #include <QtCore/QDebug>
@@ -32,10 +33,11 @@ namespace QZeitgeist
 class SubjectPrivate
 {
 public:
-    explicit SubjectPrivate() { }
+    explicit SubjectPrivate();
+    SubjectPrivate(const SubjectPrivate &other);
     bool compare(const SubjectPrivate &other) const;
-    void copy(const SubjectPrivate &other);
 
+    QAtomicInt ref;
     QUrl url;
     QUrl currentUrl;
     QUrl origin;
@@ -46,6 +48,25 @@ public:
     QString storage;
     QString mimeType;
 };
+
+SubjectPrivate::SubjectPrivate()
+    : ref(1)
+{
+}
+
+SubjectPrivate::SubjectPrivate(const SubjectPrivate &other)
+    : ref(1)
+    , url(other.url)
+    , currentUrl(other.currentUrl)
+    , origin(other.origin)
+    , currentOrigin(other.currentOrigin)
+    , interpretation(other.interpretation)
+    , manifestation(other.manifestation)
+    , text(other.text)
+    , storage(other.storage)
+    , mimeType(other.mimeType)
+{
+}
 
 bool SubjectPrivate::compare(const SubjectPrivate &other) const
 {
@@ -60,21 +81,6 @@ bool SubjectPrivate::compare(const SubjectPrivate &other) const
            && mimeType == other.mimeType;
 }
 
-void SubjectPrivate::copy(const SubjectPrivate &other)
-{
-    if (this != &other) {
-        url = other.url;
-        currentUrl = other.currentUrl;
-        origin = other.origin;
-        currentOrigin = other.currentOrigin;
-        interpretation = other.interpretation;
-        manifestation = other.manifestation;
-        text = other.text;
-        storage = other.storage;
-        mimeType = other.mimeType;
-    }
-}
-
 // class Subject
 Subject::Subject()
     : d(new SubjectPrivate)
@@ -82,25 +88,27 @@ Subject::Subject()
 }
 
 Subject::Subject(const Subject &other)
-    : d(new SubjectPrivate)
+    : d(other.d)
 {
-    d->copy(*other.d);
+    d->ref.ref();
 }
 
 Subject::~Subject()
 {
-    delete d;
+    if (!d->ref.deref()) {
+        delete d;
+    }
+}
+
+Subject &Subject::operator=(const Subject &other)
+{
+    qAtomicAssign(d, other.d);
+    return *this;
 }
 
 bool Subject::operator==(const Subject &other) const
 {
     return d->compare(*other.d);
-}
-
-Subject &Subject::operator=(const Subject &other)
-{
-    d->copy(*other.d);
-    return *this;
 }
 
 QUrl Subject::url() const
@@ -110,6 +118,8 @@ QUrl Subject::url() const
 
 void Subject::setUrl(const QUrl &url)
 {
+    detach();
+
     d->url = url;
 }
 
@@ -120,6 +130,8 @@ QUrl Subject::currentUrl() const
 
 void Subject::setCurrentUrl(const QUrl &url)
 {
+    detach();
+
     d->currentUrl = url;
 }
 
@@ -131,6 +143,8 @@ QUrl Subject::origin() const
 
 void Subject::setOrigin(const QUrl &origin)
 {
+    detach();
+
     d->origin = origin;
 }
 
@@ -141,6 +155,8 @@ QUrl Subject::currentOrigin() const
 
 void Subject::setCurrentOrigin(const QUrl &origin)
 {
+    detach();
+
     d->currentOrigin = origin;
 }
 
@@ -151,6 +167,8 @@ QUrl Subject::interpretation() const
 
 void Subject::setInterpretation(const QUrl &interpretation)
 {
+    detach();
+
     d->interpretation = interpretation;
 }
 
@@ -161,6 +179,8 @@ QUrl Subject::manifestation() const
 
 void Subject::setManifestation(const QUrl &manifestation)
 {
+    detach();
+
     d->manifestation = manifestation;
 }
 
@@ -171,6 +191,8 @@ QString Subject::text() const
 
 void Subject::setText(const QString &text)
 {
+    detach();
+
     d->text = text;
 }
 
@@ -181,6 +203,8 @@ QString Subject::storage() const
 
 void Subject::setStorage(const QString &storage)
 {
+    detach();
+
     d->storage = storage;
 }
 
@@ -191,6 +215,8 @@ QString Subject::mimeType() const
 
 void Subject::setMimeType(const QString &mimeType)
 {
+    detach();
+
     d->mimeType = mimeType;
 }
 
@@ -294,6 +320,11 @@ QDataStream &operator>>(QDataStream &stream, Subject &subject)
     stream >> subject.d->mimeType;
 
     return stream;
+}
+
+void Subject::detach()
+{
+    qAtomicDetach(d);
 }
 
 }; // namespace QZeitgeist

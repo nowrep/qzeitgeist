@@ -35,8 +35,8 @@ public:
     Subject(const Subject &other);
     ~Subject();
 
-    bool operator==(const Subject &other) const;
     Subject &operator=(const Subject &other);
+    bool operator==(const Subject &other) const;
 
     QUrl url() const;
     void setUrl(const QUrl &url);
@@ -74,7 +74,9 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Subject &subject);
 
 private:
-    class SubjectPrivate * const d;
+    void detach();
+
+    class SubjectPrivate *d;
 };
 
 }; // namespace QZeitgeist

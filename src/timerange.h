@@ -51,7 +51,7 @@ public:
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);
 
 private:
-    class TimeRangePrivate * const d;
+    class TimeRangePrivate *const d;
 };
 
 }; // namespace QZeitgeist

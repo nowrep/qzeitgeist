@@ -133,7 +133,7 @@ Event::~Event()
     }
 }
 
-Event &Event::operator=(Event &other)
+Event &Event::operator=(const Event &other)
 {
     qAtomicAssign(d, other.d);
     return *this;
