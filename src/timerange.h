@@ -41,11 +41,12 @@ public:
     bool isValid() const;
     TimeRange intersect(const TimeRange &timeRange) const;
 
-    HANDLE createHandle() const;
-
     static TimeRange timeRangeAnytime();
     static TimeRange timeRangeToNow();
     static TimeRange timeRangeFromNow();
+
+    HANDLE createHandle() const;
+    static TimeRange fromHandle(HANDLE handle);
 
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const TimeRange &tr);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);

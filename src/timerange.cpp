@@ -110,11 +110,6 @@ TimeRange TimeRange::intersect(const TimeRange &timeRange) const
     return TimeRange(qMax(start(), timeRange.start()), qMin(end(), timeRange.end()));
 }
 
-HANDLE TimeRange::createHandle() const
-{
-    return zeitgeist_time_range_new(start(), end());
-}
-
 // static
 TimeRange TimeRange::timeRangeAnytime()
 {
@@ -132,6 +127,20 @@ TimeRange TimeRange::timeRangeFromNow()
 {
     return TimeRange(QDateTime::currentDateTime().toMSecsSinceEpoch(),
                      std::numeric_limits<qint64>::max());
+}
+
+HANDLE TimeRange::createHandle() const
+{
+    return zeitgeist_time_range_new(start(), end());
+}
+
+// static
+TimeRange TimeRange::fromHandle(HANDLE handle)
+{
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)handle;
+
+    return TimeRange(zeitgeist_time_range_get_start(tr),
+                     zeitgeist_time_range_get_end(tr));
 }
 
 static const int streamVersion = 1;
