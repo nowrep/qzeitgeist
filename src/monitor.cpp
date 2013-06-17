@@ -116,11 +116,8 @@ void Monitor::setEventTemplates(const QList<Event> &eventTemplates)
 TimeRange Monitor::timeRange() const
 {
     ZeitgeistTimeRange *tr = zeitgeist_monitor_get_time_range((ZeitgeistMonitor *)m_handle);
-    TimeRange result = TimeRange::fromHandle(tr);
 
-    g_object_unref(tr);
-
-    return result;
+    return TimeRange::fromHandle(tr);
 }
 
 void Monitor::setTimeRange(const TimeRange &timeRange)
