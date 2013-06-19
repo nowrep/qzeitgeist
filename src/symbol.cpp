@@ -22,23 +22,9 @@ extern "C" {
 }
 
 #include "symbol.h"
+#include "tools.h"
 #include <QtCore/QUrl>
 #include <QtCore/QDebug>
-
-static QList<QUrl> convertGList(GList *list)
-{
-    QList<QUrl> urls;
-    GList *tmp = list;
-
-    while (tmp) {
-        gchar *uri = (gchar *) tmp->data;
-        urls.append(QUrl(uri));
-        tmp = tmp->next;
-    }
-
-    g_list_free_full(list, g_free);
-    return urls;
-}
 
 namespace QZeitgeist
 {
@@ -84,8 +70,8 @@ void SymbolPrivate::setUrl(const QUrl &url)
 
     displayName = zeitgeist_symbol_get_display_name(urlData.constData());
     description = zeitgeist_symbol_get_description(urlData.constData());
-    parents = convertGList(zeitgeist_symbol_get_all_parents(urlData.constData()));
-    children = convertGList(zeitgeist_symbol_get_all_children(urlData.constData()));
+    parents = Tools::urlsFromGList(zeitgeist_symbol_get_all_parents(urlData.constData()));
+    children = Tools::urlsFromGList(zeitgeist_symbol_get_all_children(urlData.constData()));
 }
 
 // class Symbol

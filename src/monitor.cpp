@@ -23,32 +23,10 @@ extern "C" {
 
 #include "monitor.h"
 #include "resultset.h"
+#include "tools.h"
 
 namespace QZeitgeist
 {
-
-static GPtrArray *convertToPtrArray(const QList<Event> &events)
-{
-    GPtrArray *array = g_ptr_array_sized_new(events.size());
-
-    foreach (const Event &event, events) {
-        g_ptr_array_add(array, (gpointer)event.createHandle());
-    }
-
-    return array;
-}
-
-static QList<Event> convertFromPtrArray(GPtrArray *array)
-{
-    QList<Event> list;
-
-    for (unsigned i = 0; i < array->len; ++i) {
-        Event event = Event::fromHandle(g_ptr_array_index(array, i));
-        list.append(event);
-    }
-
-    return list;
-}
 
 static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
                               guint32 *event_ids, int events_length, gpointer user_data)
@@ -80,7 +58,7 @@ Monitor::Monitor(const TimeRange &timeRange, const QList<Event> &eventTemplates,
     : QObject(parent)
 {
     ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
-    GPtrArray *templates = convertToPtrArray(eventTemplates);
+    GPtrArray *templates = Tools::eventsToPtrArray(eventTemplates);
 
     ZeitgeistMonitor *monitor = zeitgeist_monitor_new(tr, templates);
     g_signal_connect(monitor, "events-deleted", G_CALLBACK(on_events_deleted), this);
@@ -102,12 +80,12 @@ QList<Event> Monitor::eventTemplates() const
 {
     GPtrArray *templates = zeitgeist_monitor_get_event_templates((ZeitgeistMonitor *)m_handle);
 
-    return convertFromPtrArray(templates);
+    return Tools::eventsFromPtrArray(templates);
 }
 
 void Monitor::setEventTemplates(const QList<Event> &eventTemplates)
 {
-    GPtrArray *templates = convertToPtrArray(eventTemplates);
+    GPtrArray *templates = Tools::eventsToPtrArray(eventTemplates);
     zeitgeist_monitor_set_event_templates((ZeitgeistMonitor *)m_handle, templates);
 
     g_ptr_array_unref(templates);

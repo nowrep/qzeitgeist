@@ -14,6 +14,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 set(qzeitgeist_HEADERS
     mimetype.h
     symbol.h
+    tools.h
     timerange.h
     subject.h
     event.h
@@ -27,6 +28,7 @@ set(qzeitgeist_HEADERS
 set(qzeitgeist_SRCS
     mimetype.cpp
     symbol.cpp
+    tools.cpp
     timerange.cpp
     subject.cpp
     event.cpp
