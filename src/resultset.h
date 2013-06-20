@@ -50,6 +50,6 @@ private:
     HANDLE m_handle;
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_RESULTEST_H_

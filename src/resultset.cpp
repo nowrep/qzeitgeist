@@ -71,5 +71,5 @@ void ResultSet::reset()
     zeitgeist_result_set_reset((ZeitgeistResultSet *)m_handle);
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

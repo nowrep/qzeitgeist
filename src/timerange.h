@@ -55,7 +55,7 @@ private:
     QSharedPointer<class TimeRangePrivate> d;
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_TIMERANGE_H_
 

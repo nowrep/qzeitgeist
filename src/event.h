@@ -79,6 +79,6 @@ private:
     class EventPrivate *d;
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_EVENT_H_

@@ -170,5 +170,5 @@ QDataStream &operator>>(QDataStream &stream, TimeRange &tr)
     return stream;
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

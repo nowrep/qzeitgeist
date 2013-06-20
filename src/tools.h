@@ -43,6 +43,6 @@ public:
     static QList<QUrl> urlsFromGList(GList *list);
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_TOOLS_H_

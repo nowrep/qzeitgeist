@@ -327,5 +327,5 @@ void Subject::detach()
     qAtomicDetach(d);
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

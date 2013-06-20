@@ -57,6 +57,6 @@ private:
     QSharedPointer<class SymbolPrivate> d;
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_SYMBOL_H_

@@ -35,7 +35,7 @@
 namespace QZeitgeist
 {
 typedef void *HANDLE;
-};
+}
 
 #endif // QZEITGEIST_H_
 

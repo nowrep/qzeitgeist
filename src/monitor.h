@@ -62,6 +62,6 @@ private:
     HANDLE m_handle;
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_MONITOR_H_

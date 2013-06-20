@@ -103,5 +103,5 @@ QList<QUrl> Tools::urlsFromGList(GList *list)
 }
 
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

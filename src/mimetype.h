@@ -37,8 +37,8 @@ QUrl QZEITGEIST_EXPORT getInterpretationUrl(const QString &mimeType);
 
 void QZEITGEIST_EXPORT registerUrlScheme(const QString &urlScheme, const QUrl &manifestationType);
 QUrl QZEITGEIST_EXPORT getManifestation(const QUrl &url);
-}; // namespace MimeType
+} // namespace MimeType
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_MIMETYPE_H_

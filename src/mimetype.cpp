@@ -73,5 +73,5 @@ QUrl MimeType::getManifestation(const QUrl &url)
     return QUrl(manifestation);
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

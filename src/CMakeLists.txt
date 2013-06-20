@@ -40,6 +40,10 @@ configure_file(qzeitgeist_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_ve
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-long-long -pedantic")
+# Generated zeitgeist_event_constructv_full is reported as unused
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-function")
+
 automoc4_add_library(qzeitgeist SHARED ${qzeitgeist_SRCS})
 
 include_directories(${ZG2_INCLUDE_DIRS})

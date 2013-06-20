@@ -247,6 +247,8 @@ HANDLE Event::createHandle() const
     // Is it necessary here?
     g_byte_array_unref(payload);
     g_ptr_array_unref(subjects);
+
+    return event;
 }
 
 // static
@@ -311,5 +313,5 @@ void Event::detach()
     qAtomicDetach(d);
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

@@ -79,6 +79,6 @@ private:
     class SubjectPrivate *d;
 };
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
 #endif // QZEITGEIST_SUBJECT_H_

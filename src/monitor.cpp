@@ -111,5 +111,5 @@ HANDLE Monitor::getHandle() const
     return m_handle;
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 

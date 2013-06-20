@@ -171,5 +171,5 @@ QDataStream &operator>>(QDataStream &stream, Symbol &symbol)
     return stream;
 }
 
-}; // namespace QZeitgeist
+} // namespace QZeitgeist
 
