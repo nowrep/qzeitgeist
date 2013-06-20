@@ -35,7 +35,64 @@
 namespace QZeitgeist
 {
 typedef void *HANDLE;
-}
+
+enum RelevantResultType {
+    RecentRelevantResult = 0,
+    RelatedRelevantResult = 1
+};
+
+enum StorageState {
+    NotAvailableState = 0,
+    AvailableState = 1,
+    AnyState = 2
+};
+
+enum DataModelError {
+    InvalidSignatureError = 0,
+    NullEventError = 1,
+    TooManyResultsError = 2
+};
+
+enum ResultType {
+    MostRecentEventsResult = 0,
+    LeastRecentEventsResult = 1,
+    MostRecentSubjectsResult = 2,
+    LeastRecentSubjectsResult = 3,
+    MostPopularSubjectsResult = 4,
+    LeastPopularSubjectsResult = 5,
+    MostPopularActorResult = 6,
+    LeastPopularActorResult = 7,
+    MostRecentActorResult = 8,
+    LeastRecentActorResult = 9,
+    MostRecentOriginResult = 10,
+    LeastRecentOriginResult = 11,
+    MostPopularOriginResult = 12,
+    LeastPopularOriginResult = 13,
+    OldestActorResult = 14,
+    MostRecentSubjectInterpretationResult = 15,
+    LeastRecentSubjectInterpretationResult = 16,
+    MostPopularSubjectInterpretationResult = 17,
+    LeastPopularSubjectInterpretationResult = 18,
+    MostRecentMimetypeResult = 19,
+    LeastRecentMimetypeResult = 20,
+    MostPopularMimetypeResult = 21,
+    LeastPopularMimetypeResult = 22,
+    MostRecentCurrentUrlResult = 23,
+    LeastRecentCurrentUrlResult = 24,
+    MostPopularCurrentUrlResult = 25,
+    LeastPopularCurrentUrlResult = 26,
+    MostRecentEventOriginResult = 27,
+    LeastRecentEventOriginResult = 28,
+    MostPopularEventOriginResult = 29,
+    LeastPopularEventOriginResult = 30,
+    MostRecentCurrentOriginResult = 31,
+    LeastRecentCurrentOriginResult = 32,
+    MostPopularCurrentOriginResult = 33,
+    LeastPopularCurrentOriginResult = 34,
+    RelevancyResult = 100
+};
+
+} // namespce QZeitgeist
 
 #endif // QZEITGEIST_H_
 
