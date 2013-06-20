@@ -31,7 +31,7 @@ namespace QZeitgeist
 
 GPtrArray *Tools::subjectsToPtrArray(const QList<Subject> &subjects)
 {
-    GPtrArray *array = g_ptr_array_sized_new(subjects.size());
+    GPtrArray *array = g_ptr_array_new_with_free_func((GDestroyNotify)g_object_unref);
 
     foreach (const Subject &subject, subjects) {
         g_ptr_array_add(array, (gpointer)subject.createHandle());
@@ -66,7 +66,7 @@ QByteArray Tools::convertFromByteArray(GByteArray *array)
 
 GPtrArray *Tools::eventsToPtrArray(const QList<Event> &events)
 {
-    GPtrArray *array = g_ptr_array_sized_new(events.size());
+    GPtrArray *array = g_ptr_array_new_with_free_func((GDestroyNotify)g_object_unref);
 
     foreach (const Event &event, events) {
         g_ptr_array_add(array, (gpointer)event.createHandle());
@@ -102,6 +102,16 @@ QList<QUrl> Tools::urlsFromGList(GList *list)
     return urls;
 }
 
+QList<int> Tools::intListFromGArray(GArray *array)
+{
+    QList<int> list;
+
+    for (unsigned i = 0; i < array->len; ++i) {
+        list.append(g_array_index(array, int, i));
+    }
+
+    return list;
+}
 
 } // namespace QZeitgeist
 
