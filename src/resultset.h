@@ -21,6 +21,7 @@
 #define QZEITGEIST_RESULTEST_H_
 
 #include "qzeitgeist.h"
+#include <QtCore/QSharedPointer>
 
 namespace QZeitgeist
 {
@@ -30,8 +31,9 @@ class Event;
 class QZEITGEIST_EXPORT ResultSet
 {
 public:
-    ResultSet(HANDLE handle);
     ~ResultSet();
+
+    ResultSet &operator=(const ResultSet &other);
 
     int size() const;
     int estimatedMatches() const;
@@ -42,12 +44,12 @@ public:
     int currentPosition() const;
     void reset();
 
-private:
-    // Disable copying
-    ResultSet(const ResultSet &other);
-    ResultSet &operator=(const ResultSet &other);
+    static ResultSet fromHandle(HANDLE handle);
 
-    HANDLE m_handle;
+private:
+    ResultSet();
+
+    QSharedPointer<class ResultSetPrivate> d;
 };
 
 } // namespace QZeitgeist

@@ -49,7 +49,7 @@ static void on_events_inserted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_rang
     Monitor *monitor = static_cast<Monitor *>(user_data);
 
     TimeRange tr = TimeRange::fromHandle(time_range);
-    ResultSet resultSet(events);
+    ResultSet resultSet = ResultSet::fromHandle(events);
 
     Q_EMIT monitor->eventsInserted(tr, resultSet);
 }

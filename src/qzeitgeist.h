@@ -34,6 +34,7 @@
 
 namespace QZeitgeist
 {
+
 typedef void *HANDLE;
 
 enum RelevantResultType {

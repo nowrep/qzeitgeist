@@ -27,48 +27,81 @@ extern "C" {
 namespace QZeitgeist
 {
 
-ResultSet::ResultSet(HANDLE handle)
-    : m_handle(handle)
+class ResultSetPrivate
 {
-    Q_ASSERT(m_handle);
+public:
+    explicit ResultSetPrivate(ZeitgeistResultSet *r);
+    ~ResultSetPrivate();
 
-    g_object_ref((ZeitgeistResultSet *)m_handle);
+    ZeitgeistResultSet *resultSet;
+};
+
+ResultSetPrivate::ResultSetPrivate(ZeitgeistResultSet *r)
+    : resultSet(r)
+{
+    Q_ASSERT(r);
+}
+
+ResultSetPrivate::~ResultSetPrivate()
+{
+    g_object_unref(resultSet);
+}
+
+// class ResultSet
+ResultSet::ResultSet()
+{
 }
 
 ResultSet::~ResultSet()
 {
-    g_object_unref((ZeitgeistResultSet *)m_handle);
+}
+
+ResultSet &ResultSet::operator=(const ResultSet &other)
+{
+    if (this != &other) {
+        d = other.d;
+    }
+
+    return *this;
 }
 
 int ResultSet::size() const
 {
-    return (int) zeitgeist_result_set_size((ZeitgeistResultSet *)m_handle);
+    return (int) zeitgeist_result_set_size(d->resultSet);
 }
 
 int ResultSet::estimatedMatches() const
 {
-    return (int) zeitgeist_result_set_estimated_matches((ZeitgeistResultSet *)m_handle);
+    return (int) zeitgeist_result_set_estimated_matches(d->resultSet);
 }
 
 Event ResultSet::nextValue()
 {
-    ZeitgeistEvent *ev = zeitgeist_result_set_next_value((ZeitgeistResultSet *)m_handle);
+    ZeitgeistEvent *ev = zeitgeist_result_set_next_value(d->resultSet);
     return Event::fromHandle(ev);
 }
 
 bool ResultSet::hasNext() const
 {
-    return zeitgeist_result_set_has_next((ZeitgeistResultSet *)m_handle);
+    return zeitgeist_result_set_has_next(d->resultSet);
 }
 
 int ResultSet::currentPosition() const
 {
-    return (int) zeitgeist_result_set_tell((ZeitgeistResultSet *)m_handle);
+    return (int) zeitgeist_result_set_tell(d->resultSet);
 }
 
 void ResultSet::reset()
 {
-    zeitgeist_result_set_reset((ZeitgeistResultSet *)m_handle);
+    zeitgeist_result_set_reset(d->resultSet);
+}
+
+// static
+ResultSet ResultSet::fromHandle(HANDLE handle)
+{
+    ResultSet r;
+    r.d = QSharedPointer<ResultSetPrivate>(new ResultSetPrivate((ZeitgeistResultSet *)handle));
+    return r;
 }
 
 } // namespace QZeitgeist
