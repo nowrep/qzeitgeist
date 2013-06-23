@@ -41,7 +41,9 @@ public:
     static QList<Event> eventsFromPtrArray(GPtrArray *array);
 
     static QList<QUrl> urlsFromGList(GList *list);
-    static QList<int> intListFromGArray(GArray *array);
+
+    static GArray *quint32ListToGArray(const QList<quint32> &list);
+    static QList<quint32> quint32ListFromGArray(GArray *array);
 };
 
 } // namespace QZeitgeist

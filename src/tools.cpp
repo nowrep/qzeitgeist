@@ -102,12 +102,23 @@ QList<QUrl> Tools::urlsFromGList(GList *list)
     return urls;
 }
 
-QList<int> Tools::intListFromGArray(GArray *array)
+GArray *Tools::quint32ListToGArray(const QList<quint32> &list)
 {
-    QList<int> list;
+    GArray *arr = g_array_sized_new(FALSE, FALSE, sizeof(guint32), list.size());
+
+    Q_FOREACH(int id, list) {
+        g_array_append_val(arr, id);
+    }
+
+    return arr;
+}
+
+QList<quint32> Tools::quint32ListFromGArray(GArray *array)
+{
+    QList<quint32> list;
 
     for (unsigned i = 0; i < array->len; ++i) {
-        list.append(g_array_index(array, int, i));
+        list.append(g_array_index(array, guint32, i));
     }
 
     return list;
