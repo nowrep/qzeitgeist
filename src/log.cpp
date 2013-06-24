@@ -124,12 +124,9 @@ void LogPrivate::emitEventsDeleted(int id, const TimeRange &tr) const
 }
 
 // callbacks
-static void on_monitor_removed(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_monitor_removed(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     zeitgeist_log_remove_monitor_finish(log, res, &error);
 
     if (error) {
@@ -145,12 +142,9 @@ static void on_monitor_removed(ZeitgeistLog *log, GAsyncResult *res, gpointer us
     delete request;
 }
 
-static void on_events_inserted(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_events_inserted(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     GArray *event_ids = zeitgeist_log_insert_events_finish(log, res, &error);
 
     if (error) {
@@ -168,12 +162,9 @@ static void on_events_inserted(ZeitgeistLog *log, GAsyncResult *res, gpointer us
     delete request;
 }
 
-static void on_events_found(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_events_found(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     ZeitgeistResultSet *result = zeitgeist_log_find_events_finish(log, res, &error);
 
     if (error) {
@@ -190,13 +181,10 @@ static void on_events_found(ZeitgeistLog *log, GAsyncResult *res, gpointer user_
     delete request;
 }
 
-static void on_event_ids_found(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_event_ids_found(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
     int len = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     guint32 *result = zeitgeist_log_find_event_ids_finish(log, res, &len, &error);
 
     if (error) {
@@ -219,12 +207,9 @@ static void on_event_ids_found(ZeitgeistLog *log, GAsyncResult *res, gpointer us
     delete request;
 }
 
-static void on_events_got_by_id(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_events_got_by_id(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     ZeitgeistResultSet *result = zeitgeist_log_get_events_finish(log, res, &error);
 
     if (error) {
@@ -241,12 +226,9 @@ static void on_events_got_by_id(ZeitgeistLog *log, GAsyncResult *res, gpointer u
     delete request;
 }
 
-static void on_events_deleted(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_events_deleted(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     ZeitgeistTimeRange *result = zeitgeist_log_delete_events_finish(log, res, &error);
 
     if (error) {
@@ -264,13 +246,10 @@ static void on_events_deleted(ZeitgeistLog *log, GAsyncResult *res, gpointer use
     delete request;
 }
 
-static void on_related_urls_found(ZeitgeistLog *log, GAsyncResult *res, gpointer user_data)
+static void on_related_urls_found(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
-    Q_UNUSED(user_data);
-
     GError *error = 0;
     int len = 0;
-    LogRequest *request = static_cast<LogRequest *>(g_async_result_get_user_data(res));
     gchar **result = zeitgeist_log_find_related_uris_finish(log, res, &len, &error);
 
     if (error) {

@@ -29,10 +29,8 @@ namespace QZeitgeist
 {
 
 static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
-                              guint32 *event_ids, int events_length, gpointer user_data)
+                              guint32 *event_ids, int events_length, Monitor *monitor)
 {
-    Monitor *monitor = static_cast<Monitor *>(user_data);
-
     TimeRange tr = TimeRange::fromHandle(time_range);
     QList<quint32> ids;
 
@@ -44,10 +42,8 @@ static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range
 }
 
 static void on_events_inserted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
-                               ZeitgeistResultSet *events, gpointer user_data)
+                               ZeitgeistResultSet *events, Monitor *monitor)
 {
-    Monitor *monitor = static_cast<Monitor *>(user_data);
-
     TimeRange tr = TimeRange::fromHandle(time_range);
     ResultSet resultSet = ResultSet::fromHandle(events);
 
