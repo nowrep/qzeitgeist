@@ -22,6 +22,7 @@
 
 #include "qzeitgeist.h"
 #include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 
@@ -58,5 +59,7 @@ private:
 };
 
 } // namespace QZeitgeist
+
+Q_DECLARE_METATYPE(QZeitgeist::Symbol)
 
 #endif // QZEITGEIST_SYMBOL_H_

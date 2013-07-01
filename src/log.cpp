@@ -26,7 +26,6 @@ extern "C" {
 #include "tools.h"
 #include "resultset.h"
 #include <QtCore/QDebug>
-#include <QtCore/QUrl>
 #include <QtCore/QStringList>
 
 namespace QZeitgeist

@@ -22,8 +22,10 @@
 
 #include "qzeitgeist.h"
 #include "event.h"
+#include <QtCore/QMetaType>
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QUrl>
 
 class QStringList;
 
@@ -87,5 +89,8 @@ private:
 };
 
 } // namespace QZeitgeist
+
+Q_DECLARE_METATYPE(QList<QUrl>)
+Q_DECLARE_METATYPE(QList<quint32>)
 
 #endif // QZEITGEIST_LOG_H_

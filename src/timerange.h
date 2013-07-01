@@ -22,6 +22,7 @@
 
 #include "qzeitgeist.h"
 #include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
 
 namespace QZeitgeist
 {
@@ -56,6 +57,8 @@ private:
 };
 
 } // namespace QZeitgeist
+
+Q_DECLARE_METATYPE(QZeitgeist::TimeRange)
 
 #endif // QZEITGEIST_TIMERANGE_H_
 

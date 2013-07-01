@@ -22,6 +22,7 @@
 
 #include "qzeitgeist.h"
 #include "subject.h"
+#include <QtCore/QMetaType>
 #include <QtCore/QList>
 
 class QUrl;
@@ -80,5 +81,7 @@ private:
 };
 
 } // namespace QZeitgeist
+
+Q_DECLARE_METATYPE(QZeitgeist::Event)
 
 #endif // QZEITGEIST_EVENT_H_

@@ -21,6 +21,7 @@
 #define QZEITGEIST_RESULTEST_H_
 
 #include "qzeitgeist.h"
+#include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
 
 namespace QZeitgeist
@@ -52,5 +53,7 @@ private:
 };
 
 } // namespace QZeitgeist
+
+Q_DECLARE_METATYPE(QZeitgeist::ResultSet)
 
 #endif // QZEITGEIST_RESULTEST_H_

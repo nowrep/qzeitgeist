@@ -21,6 +21,7 @@
 #define QZEITGEIST_SUBJECT_H_
 
 #include "qzeitgeist.h"
+#include <QtCore/QMetaType>
 
 class QUrl;
 class QString;
@@ -80,5 +81,7 @@ private:
 };
 
 } // namespace QZeitgeist
+
+Q_DECLARE_METATYPE(QZeitgeist::Subject)
 
 #endif // QZEITGEIST_SUBJECT_H_
