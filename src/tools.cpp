@@ -25,6 +25,7 @@ extern "C" {
 #include "event.h"
 #include <QtCore/QByteArray>
 #include <QtCore/QUrl>
+#include <QDebug>
 
 namespace QZeitgeist
 {
@@ -44,6 +45,10 @@ QList<Subject> Tools::subjectsFromPtrArray(GPtrArray *array)
 {
     QList<Subject> list;
 
+    if (!array) {
+        return list;
+    }
+
     for (unsigned i = 0; i < array->len; ++i) {
         Subject subject = Subject::fromHandle(g_ptr_array_index(array, i));
         list.append(subject);
@@ -61,6 +66,10 @@ GByteArray *Tools::convertToByteArray(const QByteArray &array)
 
 QByteArray Tools::convertFromByteArray(GByteArray *array)
 {
+    if (!array) {
+        return QByteArray();
+    }
+
     return QByteArray((const char *)array->data, (int) array->len);
 }
 
@@ -78,6 +87,10 @@ GPtrArray *Tools::eventsToPtrArray(const QList<Event> &events)
 QList<Event> Tools::eventsFromPtrArray(GPtrArray *array)
 {
     QList<Event> list;
+
+    if (!array) {
+        return list;
+    }
 
     for (unsigned i = 0; i < array->len; ++i) {
         Event event = Event::fromHandle(g_ptr_array_index(array, i));
@@ -116,6 +129,10 @@ GArray *Tools::quint32ListToGArray(const QList<quint32> &list)
 QList<quint32> Tools::quint32ListFromGArray(GArray *array)
 {
     QList<quint32> list;
+
+    if (!array) {
+        return list;
+    }
 
     for (unsigned i = 0; i < array->len; ++i) {
         list.append(g_array_index(array, guint32, i));
