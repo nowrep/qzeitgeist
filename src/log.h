@@ -72,10 +72,10 @@ public:
 
 Q_SIGNALS:
     void eventsInserted(int requestId, const QList<quint32> &eventIds);
-    void eventsFound(int requestId, const ResultSet &resultSet);
+    void eventsFound(int requestId, const QZeitgeist::ResultSet &resultSet);
     void eventIdsFound(int requestId, const QList<quint32> &eventIds);
-    void eventsGotById(int requestId, const ResultSet &resultSet);
-    void eventsDeleted(int requestId, const TimeRange &timeRange);
+    void eventsGotById(int requestId, const QZeitgeist::ResultSet &resultSet);
+    void eventsDeleted(int requestId, const QZeitgeist::TimeRange &timeRange);
     void relatedUrlsFound(int requestId, const QList<QUrl> &urls);
     void monitorRemoved(int requestId);
 
