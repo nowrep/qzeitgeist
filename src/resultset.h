@@ -31,6 +31,7 @@ class Event;
 class QZEITGEIST_EXPORT ResultSet
 {
 public:
+    ResultSet();
     ~ResultSet();
 
     ResultSet &operator=(const ResultSet &other);
@@ -47,8 +48,6 @@ public:
     static ResultSet fromHandle(HANDLE handle);
 
 private:
-    ResultSet();
-
     QSharedPointer<class ResultSetPrivate> d;
 };
 

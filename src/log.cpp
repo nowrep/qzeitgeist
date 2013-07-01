@@ -278,6 +278,9 @@ Log::Log(QObject *parent)
     , d(new LogPrivate(this))
 {
     d->log = zeitgeist_log_new();
+
+    qRegisterMetaType<QList<quint32> >("QList<quint32>");
+    qRegisterMetaType<QList<QUrl> >("QList<QUrl>");
 }
 
 Log::~Log()

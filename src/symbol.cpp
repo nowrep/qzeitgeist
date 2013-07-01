@@ -78,6 +78,7 @@ void SymbolPrivate::setUrl(const QUrl &url)
 Symbol::Symbol(const QUrl &url)
     : d(new SymbolPrivate(url))
 {
+    qRegisterMetaType<Symbol>("QZeitgeist::Symbol");
 }
 
 Symbol::~Symbol()

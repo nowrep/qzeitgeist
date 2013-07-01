@@ -44,6 +44,7 @@ TimeRangePrivate::TimeRangePrivate()
     : start(-1)
     , end(-1)
 {
+    qRegisterMetaType<TimeRange>("QZeitgeist::TimeRange");
 }
 
 bool TimeRangePrivate::compare(const TimeRangePrivate &other) const

@@ -85,6 +85,7 @@ bool SubjectPrivate::compare(const SubjectPrivate &other) const
 Subject::Subject()
     : d(new SubjectPrivate)
 {
+    qRegisterMetaType<Subject>("QZeitgeist::Subject");
 }
 
 Subject::Subject(const Subject &other)

@@ -23,6 +23,7 @@ extern "C" {
 
 #include "resultset.h"
 #include "event.h"
+#include <QtCore/QMetaType>
 
 namespace QZeitgeist
 {
@@ -49,7 +50,9 @@ ResultSetPrivate::~ResultSetPrivate()
 
 // class ResultSet
 ResultSet::ResultSet()
+    : d(0)
 {
+    qRegisterMetaType<ResultSet>("QZeitgeist::ResultSet");
 }
 
 ResultSet::~ResultSet()
@@ -67,32 +70,38 @@ ResultSet &ResultSet::operator=(const ResultSet &other)
 
 int ResultSet::size() const
 {
+    Q_ASSERT(d);
     return (int) zeitgeist_result_set_size(d->resultSet);
 }
 
 int ResultSet::estimatedMatches() const
 {
+    Q_ASSERT(d);
     return (int) zeitgeist_result_set_estimated_matches(d->resultSet);
 }
 
 Event ResultSet::nextValue()
 {
+    Q_ASSERT(d);
     ZeitgeistEvent *ev = zeitgeist_result_set_next_value(d->resultSet);
     return Event::fromHandle(ev);
 }
 
 bool ResultSet::hasNext() const
 {
+    Q_ASSERT(d);
     return zeitgeist_result_set_has_next(d->resultSet);
 }
 
 int ResultSet::currentPosition() const
 {
+    Q_ASSERT(d);
     return (int) zeitgeist_result_set_tell(d->resultSet);
 }
 
 void ResultSet::reset()
 {
+    Q_ASSERT(d);
     zeitgeist_result_set_reset(d->resultSet);
 }
 

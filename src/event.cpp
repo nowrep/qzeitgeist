@@ -84,6 +84,7 @@ bool EventPrivate::compare(const EventPrivate &other) const
 Event::Event()
     : d(new EventPrivate)
 {
+    qRegisterMetaType<Event>("QZeitgeist::Event");
 }
 
 Event::Event(const Event &other)
