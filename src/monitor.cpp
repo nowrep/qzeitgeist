@@ -28,8 +28,22 @@ extern "C" {
 namespace QZeitgeist
 {
 
+class MonitorPrivate
+{
+public:
+    MonitorPrivate(const TimeRange &timeRange, const QList<Event> &eventTemplates, Monitor *q_);
+    ~MonitorPrivate();
+
+    void emitEventsDeleted(const TimeRange &tr, const QList<quint32> &ids);
+    void emitEventsInserted(const TimeRange &tr, const ResultSet &res);
+
+    Monitor *q;
+    ZeitgeistMonitor *monitor;
+};
+
+// callbacks
 static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
-                              guint32 *event_ids, int events_length, Monitor *monitor)
+                              guint32 *event_ids, int events_length, MonitorPrivate *monitor)
 {
     TimeRange tr = TimeRange::fromHandle(time_range);
     QList<quint32> ids;
@@ -38,43 +52,64 @@ static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range
         ids.append(event_ids[i]);
     }
 
-    Q_EMIT monitor->eventsDeleted(tr, ids);
+    monitor->emitEventsDeleted(tr, ids);
 }
 
 static void on_events_inserted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
-                               ZeitgeistResultSet *events, Monitor *monitor)
+                               ZeitgeistResultSet *events, MonitorPrivate *monitor)
 {
     TimeRange tr = TimeRange::fromHandle(time_range);
     ResultSet resultSet = ResultSet::fromHandle(events);
 
-    Q_EMIT monitor->eventsInserted(tr, resultSet);
+    monitor->emitEventsInserted(tr, resultSet);
 }
 
-Monitor::Monitor(const TimeRange &timeRange, const QList<Event> &eventTemplates, QObject *parent)
-    : QObject(parent)
+MonitorPrivate::MonitorPrivate(const TimeRange &timeRange, const QList<Event> &eventTemplates, Monitor *q_)
+    : q(q_)
 {
     ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
     GPtrArray *templates = Tools::eventsToPtrArray(eventTemplates);
 
-    ZeitgeistMonitor *monitor = zeitgeist_monitor_new(tr, templates);
+    monitor = zeitgeist_monitor_new(tr, templates);
     g_signal_connect(monitor, "events-deleted", G_CALLBACK(on_events_deleted), this);
     g_signal_connect(monitor, "events-inserted", G_CALLBACK(on_events_inserted), this);
 
     g_object_unref(tr);
     g_ptr_array_unref(templates);
 
-    m_handle = monitor;
-    Q_ASSERT(m_handle);
+    Q_ASSERT(monitor);
+}
+
+MonitorPrivate::~MonitorPrivate()
+{
+    g_object_unref(monitor);
+}
+
+void MonitorPrivate::emitEventsDeleted(const TimeRange &tr, const QList<quint32> &ids)
+{
+    Q_EMIT q->eventsDeleted(tr, ids);
+}
+
+void MonitorPrivate::emitEventsInserted(const TimeRange &tr, const ResultSet &res)
+{
+    Q_EMIT q->eventsInserted(tr, res);
+}
+
+// class Monitor
+Monitor::Monitor(const TimeRange &timeRange, const QList<Event> &eventTemplates, QObject *parent)
+    : QObject(parent)
+    , d(new MonitorPrivate(timeRange, eventTemplates, this))
+{
 }
 
 Monitor::~Monitor()
 {
-    g_object_unref(m_handle);
+    delete d;
 }
 
 QList<Event> Monitor::eventTemplates() const
 {
-    GPtrArray *templates = zeitgeist_monitor_get_event_templates((ZeitgeistMonitor *)m_handle);
+    GPtrArray *templates = zeitgeist_monitor_get_event_templates(d->monitor);
 
     return Tools::eventsFromPtrArray(templates);
 }
@@ -82,14 +117,14 @@ QList<Event> Monitor::eventTemplates() const
 void Monitor::setEventTemplates(const QList<Event> &eventTemplates)
 {
     GPtrArray *templates = Tools::eventsToPtrArray(eventTemplates);
-    zeitgeist_monitor_set_event_templates((ZeitgeistMonitor *)m_handle, templates);
+    zeitgeist_monitor_set_event_templates(d->monitor, templates);
 
     g_ptr_array_unref(templates);
 }
 
 TimeRange Monitor::timeRange() const
 {
-    ZeitgeistTimeRange *tr = zeitgeist_monitor_get_time_range((ZeitgeistMonitor *)m_handle);
+    ZeitgeistTimeRange *tr = zeitgeist_monitor_get_time_range(d->monitor);
 
     return TimeRange::fromHandle(tr);
 }
@@ -97,14 +132,14 @@ TimeRange Monitor::timeRange() const
 void Monitor::setTimeRange(const TimeRange &timeRange)
 {
     ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
-    zeitgeist_monitor_set_time_range((ZeitgeistMonitor *)m_handle, tr);
+    zeitgeist_monitor_set_time_range(d->monitor, tr);
 
     g_object_unref(tr);
 }
 
 HANDLE Monitor::getHandle() const
 {
-    return m_handle;
+    return d->monitor;
 }
 
 } // namespace QZeitgeist

@@ -50,16 +50,14 @@ public:
     HANDLE getHandle() const;
 
 Q_SIGNALS:
-#ifndef Q_MOC_RUN
-public: // Hack to make signals public
-#endif
     void eventsDeleted(const TimeRange &timeRange, const QList<quint32> &ids);
     void eventsInserted(const TimeRange &timeRange, const ResultSet &events);
 
 private:
     Q_DISABLE_COPY(Monitor)
 
-    HANDLE m_handle;
+    class MonitorPrivate *d;
+    friend class MonitorPrivate;
 };
 
 } // namespace QZeitgeist
