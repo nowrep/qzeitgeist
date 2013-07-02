@@ -20,8 +20,8 @@
 #ifndef QZEITGEIST_LOG_H_
 #define QZEITGEIST_LOG_H_
 
-#include "qzeitgeist.h"
-#include "event.h"
+#include <QZeitgeist/QZeitgeist>
+#include <QZeitgeist/Event>
 #include <QtCore/QMetaType>
 #include <QtCore/QObject>
 #include <QtCore/QList>

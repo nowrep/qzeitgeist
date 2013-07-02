@@ -20,9 +20,9 @@
 #ifndef QZEITGEIST_TOOLS_H_
 #define QZEITGEIST_TOOLS_H_
 
-#include "qzeitgeist.h"
-#include "subject.h"
-#include "event.h"
+#include <QZeitgeist/QZeitgeist>
+#include <QZeitgeist/Subject>
+#include <QZeitgeist/Event>
 #include <QtCore/QList>
 
 namespace QZeitgeist

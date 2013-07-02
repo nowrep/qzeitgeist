@@ -20,7 +20,7 @@
 #ifndef QZEITGEIST_SUBJECT_H_
 #define QZEITGEIST_SUBJECT_H_
 
-#include "qzeitgeist.h"
+#include <QZeitgeist/QZeitgeist>
 #include <QtCore/QMetaType>
 
 class QUrl;

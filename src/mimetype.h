@@ -20,7 +20,7 @@
 #ifndef QZEITGEIST_MIMETYPE_H_
 #define QZEITGEIST_MIMETYPE_H_
 
-#include "qzeitgeist.h"
+#include <QZeitgeist/QZeitgeist>
 
 class QString;
 class QUrl;

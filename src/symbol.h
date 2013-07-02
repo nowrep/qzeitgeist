@@ -20,7 +20,7 @@
 #ifndef QZEITGEIST_SYMBOL_H_
 #define QZEITGEIST_SYMBOL_H_
 
-#include "qzeitgeist.h"
+#include <QZeitgeist/QZeitgeist>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QMetaType>
 #include <QtCore/QList>

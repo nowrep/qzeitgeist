@@ -20,8 +20,8 @@
 #ifndef QZEITGEIST_EVENT_H_
 #define QZEITGEIST_EVENT_H_
 
-#include "qzeitgeist.h"
-#include "subject.h"
+#include <QZeitgeist/QZeitgeist>
+#include <QZeitgeist/Subject>
 #include <QtCore/QMetaType>
 #include <QtCore/QList>
 

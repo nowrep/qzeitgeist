@@ -20,9 +20,9 @@
 #ifndef QZEITGEIST_MONITOR_H_
 #define QZEITGEIST_MONITOR_H_
 
-#include "qzeitgeist.h"
-#include "timerange.h"
-#include "event.h"
+#include <QZeitgeist/QZeitgeist>
+#include <QZeitgeist/TimeRange>
+#include <QZeitgeist/Event>
 #include <QtCore/QObject>
 #include <QtCore/QList>
 

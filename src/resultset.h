@@ -20,7 +20,7 @@
 #ifndef QZEITGEIST_RESULTEST_H_
 #define QZEITGEIST_RESULTEST_H_
 
-#include "qzeitgeist.h"
+#include <QZeitgeist/QZeitgeist>
 #include <QtCore/QMetaType>
 #include <QtCore/QSharedPointer>
 

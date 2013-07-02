@@ -20,8 +20,8 @@
 #ifndef QZEITGEIST_INDEX_H_
 #define QZEITGEIST_INDEX_H_
 
-#include "qzeitgeist.h"
-#include "event.h"
+#include <QZeitgeist/QZeitgeist>
+#include <QZeitgeist/Event>
 #include <QtCore/QObject>
 
 namespace QZeitgeist
