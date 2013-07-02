@@ -9,6 +9,7 @@ function check_code {
     --enable=all \
     --force \
     --verbose \
+    --include \
     . > /dev/null
 }
 
