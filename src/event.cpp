@@ -245,7 +245,6 @@ HANDLE Event::createHandle() const
     zeitgeist_event_set_payload(event, payload);
     zeitgeist_event_set_subjects(event, subjects);
 
-    // Is it necessary here?
     g_byte_array_unref(payload);
     g_ptr_array_unref(subjects);
 
