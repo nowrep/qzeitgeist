@@ -46,14 +46,16 @@ public:
     static TimeRange timeRangeToNow();
     static TimeRange timeRangeFromNow();
 
-    HANDLE createHandle() const;
-    static TimeRange fromHandle(HANDLE handle);
-
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const TimeRange &tr);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, TimeRange &tr);
 
 private:
+    HANDLE createHandle() const;
+    static TimeRange fromHandle(HANDLE handle);
+
     QSharedPointer<class TimeRangePrivate> d;
+
+    friend class Tools;
 };
 
 } // namespace QZeitgeist

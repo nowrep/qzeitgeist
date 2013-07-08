@@ -47,8 +47,6 @@ public:
     TimeRange timeRange() const;
     void setTimeRange(const TimeRange &timeRange);
 
-    HANDLE getHandle() const;
-
 Q_SIGNALS:
     void eventsDeleted(const TimeRange &timeRange, const QList<quint32> &ids);
     void eventsInserted(const TimeRange &timeRange, const ResultSet &events);
@@ -56,8 +54,12 @@ Q_SIGNALS:
 private:
     Q_DISABLE_COPY(Monitor)
 
+    HANDLE getHandle() const;
+
     class MonitorPrivate *d;
     friend class MonitorPrivate;
+
+    friend class Log;
 };
 
 } // namespace QZeitgeist

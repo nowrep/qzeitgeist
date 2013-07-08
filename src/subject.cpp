@@ -238,6 +238,47 @@ static inline const gchar *passData(const QByteArray &data)
     return data.isEmpty() ? 0 : data.constData();
 }
 
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const Subject &subject)
+{
+    stream << streamVersion;
+    stream << subject.d->url;
+    stream << subject.d->currentUrl;
+    stream << subject.d->origin;
+    stream << subject.d->currentOrigin;
+    stream << subject.d->interpretation;
+    stream << subject.d->manifestation;
+    stream << subject.d->text;
+    stream << subject.d->storage;
+    stream << subject.d->mimeType;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Subject &subject)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "Subject: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> subject.d->url;
+    stream >> subject.d->currentUrl;
+    stream >> subject.d->origin;
+    stream >> subject.d->currentOrigin;
+    stream >> subject.d->interpretation;
+    stream >> subject.d->manifestation;
+    stream >> subject.d->text;
+    stream >> subject.d->storage;
+    stream >> subject.d->mimeType;
+
+    return stream;
+}
+
 HANDLE Subject::createHandle() const
 {
     QByteArray urlData = d->url.toString().toUtf8();
@@ -280,47 +321,6 @@ Subject Subject::fromHandle(HANDLE handle)
     sub.d->mimeType = zeitgeist_subject_get_mimetype(subject);
 
     return sub;
-}
-
-static const int streamVersion = 1;
-
-QDataStream &operator<<(QDataStream &stream, const Subject &subject)
-{
-    stream << streamVersion;
-    stream << subject.d->url;
-    stream << subject.d->currentUrl;
-    stream << subject.d->origin;
-    stream << subject.d->currentOrigin;
-    stream << subject.d->interpretation;
-    stream << subject.d->manifestation;
-    stream << subject.d->text;
-    stream << subject.d->storage;
-    stream << subject.d->mimeType;
-
-    return stream;
-}
-
-QDataStream &operator>>(QDataStream &stream, Subject &subject)
-{
-    int version = -1;
-    stream >> version;
-
-    if (version != streamVersion) {
-        qWarning() << "Subject: Invalid stream version!";
-        return stream;
-    }
-
-    stream >> subject.d->url;
-    stream >> subject.d->currentUrl;
-    stream >> subject.d->origin;
-    stream >> subject.d->currentOrigin;
-    stream >> subject.d->interpretation;
-    stream >> subject.d->manifestation;
-    stream >> subject.d->text;
-    stream >> subject.d->storage;
-    stream >> subject.d->mimeType;
-
-    return stream;
 }
 
 void Subject::detach()

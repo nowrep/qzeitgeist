@@ -68,16 +68,18 @@ public:
 
     bool matchesTemplate(const Subject &subject) const;
 
-    HANDLE createHandle() const;
-    static Subject fromHandle(HANDLE handle);
-
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const Subject &subject);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Subject &subject);
 
 private:
+    HANDLE createHandle() const;
+    static Subject fromHandle(HANDLE handle);
+
     void detach();
 
     class SubjectPrivate *d;
+
+    friend class Tools;
 };
 
 } // namespace QZeitgeist

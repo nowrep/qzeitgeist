@@ -239,7 +239,7 @@ static void on_events_deleted(ZeitgeistLog *log, GAsyncResult *res, LogRequest *
         return;
     }
 
-    request->d->emitEventsDeleted(request->id, TimeRange::fromHandle(result));
+    request->d->emitEventsDeleted(request->id, Tools::timeRangeFromHandle(result));
 
     g_object_unref(result);
     delete request;
@@ -335,7 +335,7 @@ int Log::insertEvents(const QList<Event> &events)
 int Log::findEvents(const TimeRange &timeRange, const QList<Event> &eventTemplates,
                     StorageState storageState, ResultType resultType, int count)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *arr = Tools::eventsToPtrArray(eventTemplates);
     int id = d->createId();
 
@@ -355,7 +355,7 @@ int Log::findEvents(const TimeRange &timeRange, const QList<Event> &eventTemplat
 int Log::findEventIds(const TimeRange &timeRange, const QList<Event> &eventTemplates,
                       StorageState storageState, ResultType resultType, int count)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *arr = Tools::eventsToPtrArray(eventTemplates);
     int id = d->createId();
 
@@ -402,7 +402,7 @@ int Log::findRelatedUrls(const TimeRange &timeRange, const QList<Event> &eventTe
                          const QList<Event> &resultEventTemplates, StorageState storageState,
                          RelevantResultType relevantResultType, int count)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *event_templates = Tools::eventsToPtrArray(eventTemplates);
     GPtrArray *result_event_templates = Tools::eventsToPtrArray(resultEventTemplates);
     int id = d->createId();

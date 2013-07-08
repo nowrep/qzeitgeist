@@ -22,6 +22,7 @@
 
 #include <QZeitgeist/QZeitgeist>
 #include <QZeitgeist/DataSource>
+#include <QZeitgeist/TimeRange>
 #include <QZeitgeist/Subject>
 #include <QZeitgeist/Event>
 #include <QtCore/QList>
@@ -47,6 +48,10 @@ public:
 
     static GArray *quint32ListToGArray(const QList<quint32> &list);
     static QList<quint32> quint32ListFromGArray(GArray *array);
+
+    static Event eventFromHandle(HANDLE handle);
+    static TimeRange timeRangeFromHandle(HANDLE handle);
+    static HANDLE timeRangeCreateHandle(const TimeRange &tr);
 };
 
 } // namespace QZeitgeist

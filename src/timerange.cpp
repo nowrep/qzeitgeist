@@ -130,20 +130,6 @@ TimeRange TimeRange::timeRangeFromNow()
                      std::numeric_limits<qint64>::max());
 }
 
-HANDLE TimeRange::createHandle() const
-{
-    return zeitgeist_time_range_new(start(), end());
-}
-
-// static
-TimeRange TimeRange::fromHandle(HANDLE handle)
-{
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)handle;
-
-    return TimeRange(zeitgeist_time_range_get_start(tr),
-                     zeitgeist_time_range_get_end(tr));
-}
-
 static const int streamVersion = 1;
 
 QDataStream &operator<<(QDataStream &stream, const TimeRange &tr)
@@ -169,6 +155,20 @@ QDataStream &operator>>(QDataStream &stream, TimeRange &tr)
     stream >> tr.d->end;
 
     return stream;
+}
+
+HANDLE TimeRange::createHandle() const
+{
+    return zeitgeist_time_range_new(start(), end());
+}
+
+// static
+TimeRange TimeRange::fromHandle(HANDLE handle)
+{
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)handle;
+
+    return TimeRange(zeitgeist_time_range_get_start(tr),
+                     zeitgeist_time_range_get_end(tr));
 }
 
 } // namespace QZeitgeist

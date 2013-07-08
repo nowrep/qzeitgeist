@@ -157,5 +157,20 @@ QList<quint32> Tools::quint32ListFromGArray(GArray *array)
     return list;
 }
 
+Event Tools::eventFromHandle(HANDLE handle)
+{
+    return Event::fromHandle(handle);
+}
+
+TimeRange Tools::timeRangeFromHandle(HANDLE handle)
+{
+    return TimeRange::fromHandle(handle);
+}
+
+HANDLE Tools::timeRangeCreateHandle(const TimeRange &tr)
+{
+    return tr.createHandle();
+}
+
 } // namespace QZeitgeist
 

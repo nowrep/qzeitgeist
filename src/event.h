@@ -68,16 +68,18 @@ public:
     void removeSubject(const Subject &subject);
     void addSubject(const Subject &subject);
 
-    HANDLE createHandle() const;
-    static Event fromHandle(HANDLE handle);
-
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const Event &event);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, Event &event);
 
 private:
+    HANDLE createHandle() const;
+    static Event fromHandle(HANDLE handle);
+
     void detach();
 
     class EventPrivate *d;
+
+    friend class Tools;
 };
 
 } // namespace QZeitgeist

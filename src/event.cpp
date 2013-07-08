@@ -226,6 +226,45 @@ void Event::addSubject(const Subject &subject)
     d->subjects.append(subject);
 }
 
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const Event &event)
+{
+    stream << streamVersion;
+    stream << event.d->id;
+    stream << event.d->timestamp;
+    stream << event.d->origin;
+    stream << event.d->actor;
+    stream << event.d->interpretation;
+    stream << event.d->manifestation;
+    stream << event.d->payload;
+    stream << event.d->subjects;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Event &event)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "Event: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> event.d->id;
+    stream >> event.d->timestamp;
+    stream >> event.d->origin;
+    stream >> event.d->actor;
+    stream >> event.d->interpretation;
+    stream >> event.d->manifestation;
+    stream >> event.d->payload;
+    stream >> event.d->subjects;
+
+    return stream;
+}
+
 HANDLE Event::createHandle() const
 {
     QByteArray originData = d->origin.toString().toUtf8();
@@ -267,45 +306,6 @@ Event Event::fromHandle(HANDLE handle)
     ev.d->subjects = Tools::subjectsFromPtrArray(zeitgeist_event_get_subjects(event));
 
     return ev;
-}
-
-static const int streamVersion = 1;
-
-QDataStream &operator<<(QDataStream &stream, const Event &event)
-{
-    stream << streamVersion;
-    stream << event.d->id;
-    stream << event.d->timestamp;
-    stream << event.d->origin;
-    stream << event.d->actor;
-    stream << event.d->interpretation;
-    stream << event.d->manifestation;
-    stream << event.d->payload;
-    stream << event.d->subjects;
-
-    return stream;
-}
-
-QDataStream &operator>>(QDataStream &stream, Event &event)
-{
-    int version = -1;
-    stream >> version;
-
-    if (version != streamVersion) {
-        qWarning() << "Event: Invalid stream version!";
-        return stream;
-    }
-
-    stream >> event.d->id;
-    stream >> event.d->timestamp;
-    stream >> event.d->origin;
-    stream >> event.d->actor;
-    stream >> event.d->interpretation;
-    stream >> event.d->manifestation;
-    stream >> event.d->payload;
-    stream >> event.d->subjects;
-
-    return stream;
 }
 
 void Event::detach()

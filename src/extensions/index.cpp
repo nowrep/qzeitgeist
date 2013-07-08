@@ -132,7 +132,7 @@ void Index::search(const QString &query, const TimeRange &timeRange,
                    const QList<Event> &eventTemplates, quint32 offset,
                    quint32 count, ResultType resultType)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *arr = Tools::eventsToPtrArray(eventTemplates);
 
     zeitgeist_index_search(d->index,
@@ -154,7 +154,7 @@ void Index::searchWithRelevancies(const QString &query, const TimeRange &timeRan
                                   const QList<Event> &eventTemplates, StorageState storageState,
                                   quint32 offset, quint32 count, ResultType resultType)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *arr = Tools::eventsToPtrArray(eventTemplates);
 
     zeitgeist_index_search_with_relevancies(d->index,

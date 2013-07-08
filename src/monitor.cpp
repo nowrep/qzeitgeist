@@ -45,7 +45,7 @@ public:
 static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
                               guint32 *event_ids, int events_length, MonitorPrivate *monitor)
 {
-    TimeRange tr = TimeRange::fromHandle(time_range);
+    TimeRange tr = Tools::timeRangeFromHandle(time_range);
     QList<quint32> ids;
 
     for (int i = 0; i < events_length; ++i) {
@@ -58,7 +58,7 @@ static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range
 static void on_events_inserted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
                                ZeitgeistResultSet *events, MonitorPrivate *monitor)
 {
-    TimeRange tr = TimeRange::fromHandle(time_range);
+    TimeRange tr = Tools::timeRangeFromHandle(time_range);
     ResultSet resultSet = ResultSet::fromHandle(events);
 
     monitor->emitEventsInserted(tr, resultSet);
@@ -67,7 +67,7 @@ static void on_events_inserted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_rang
 MonitorPrivate::MonitorPrivate(const TimeRange &timeRange, const QList<Event> &eventTemplates, Monitor *q_)
     : q(q_)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *templates = Tools::eventsToPtrArray(eventTemplates);
 
     monitor = zeitgeist_monitor_new(tr, templates);
@@ -126,12 +126,12 @@ TimeRange Monitor::timeRange() const
 {
     ZeitgeistTimeRange *tr = zeitgeist_monitor_get_time_range(d->monitor);
 
-    return TimeRange::fromHandle(tr);
+    return Tools::timeRangeFromHandle(tr);
 }
 
 void Monitor::setTimeRange(const TimeRange &timeRange)
 {
-    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)timeRange.createHandle();
+    ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     zeitgeist_monitor_set_time_range(d->monitor, tr);
 
     g_object_unref(tr);

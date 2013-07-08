@@ -23,6 +23,7 @@ extern "C" {
 
 #include "resultset.h"
 #include "event.h"
+#include "tools.h"
 #include <QtCore/QMetaType>
 
 namespace QZeitgeist
@@ -84,7 +85,7 @@ Event ResultSet::nextValue()
 {
     Q_ASSERT(d);
     ZeitgeistEvent *ev = zeitgeist_result_set_next_value(d->resultSet);
-    return Event::fromHandle(ev);
+    return Tools::eventFromHandle(ev);
 }
 
 bool ResultSet::hasNext() const
