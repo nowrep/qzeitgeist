@@ -100,6 +100,22 @@ QList<Event> Tools::eventsFromPtrArray(GPtrArray *array)
     return list;
 }
 
+QList<DataSource> Tools::dataSourcesFromPtrArray(GPtrArray *array)
+{
+    QList<DataSource> list;
+
+    if (!array) {
+        return list;
+    }
+
+    for (unsigned i = 0; i < array->len; ++i) {
+        DataSource ds = DataSource::fromHandle(g_ptr_array_index(array, i));
+        list.append(ds);
+    }
+
+    return list;
+}
+
 QList<QUrl> Tools::urlsFromGList(GList *list)
 {
     QList<QUrl> urls;

@@ -21,6 +21,7 @@
 #define QZEITGEIST_TOOLS_H_
 
 #include <QZeitgeist/QZeitgeist>
+#include <QZeitgeist/DataSource>
 #include <QZeitgeist/Subject>
 #include <QZeitgeist/Event>
 #include <QtCore/QList>
@@ -39,6 +40,8 @@ public:
 
     static GPtrArray *eventsToPtrArray(const QList<Event> &events);
     static QList<Event> eventsFromPtrArray(GPtrArray *array);
+
+    static QList<DataSource> dataSourcesFromPtrArray(GPtrArray *array);
 
     static QList<QUrl> urlsFromGList(GList *list);
 

@@ -23,6 +23,7 @@ set(qzeitgeist_HEADERS
     log.h
     extensions/index.h
     extensions/datasource.h
+    extensions/datasourceregistry.h
     qzeitgeist.h
     qzeitgeist_defines.h
     ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_version.h
@@ -40,6 +41,7 @@ set(qzeitgeist_SRCS
     log.cpp
     extensions/index.cpp
     extensions/datasource.cpp
+    extensions/datasourceregistry.cpp
 )
 
 configure_file(qzeitgeist_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/qzeitgeist_version.h @ONLY)
