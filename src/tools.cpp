@@ -172,5 +172,15 @@ HANDLE Tools::timeRangeCreateHandle(const TimeRange &tr)
     return tr.createHandle();
 }
 
+DataSource Tools::dataSourceFromHandle(HANDLE handle)
+{
+    return DataSource::fromHandle(handle);
+}
+
+HANDLE Tools::dataSourceCreateHandle(const DataSource &ds)
+{
+    return ds.createHandle();
+}
+
 } // namespace QZeitgeist
 

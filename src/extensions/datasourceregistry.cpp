@@ -134,7 +134,7 @@ static void on_source_got_by_id(ZeitgeistDataSourceRegistry *registry, GAsyncRes
         return;
     }
 
-    request->d->emitDataSourceGotById(request->id, DataSource::fromHandle(result));
+    request->d->emitDataSourceGotById(request->id, Tools::dataSourceFromHandle(result));
 
     g_object_unref(result);
     delete request;
@@ -223,7 +223,7 @@ int DataSourceRegistry::getDataSourceById(const QString &uniqueId)
 
 int DataSourceRegistry::registerDataSource(const DataSource &dataSource)
 {
-    ZeitgeistDataSource *ds = (ZeitgeistDataSource *)dataSource.createHandle();
+    ZeitgeistDataSource *ds = (ZeitgeistDataSource *)Tools::dataSourceCreateHandle(dataSource);
     int id = d->createId();
 
     zeitgeist_data_source_registry_register_data_source(d->registry,

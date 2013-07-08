@@ -58,17 +58,19 @@ public:
     QList<Event> eventTemplates() const;
     void setEventTemplates(const QList<Event> &eventTemplates);
 
-    HANDLE createHandle() const;
-    static DataSource fromHandle(HANDLE handle);
-
     friend QZEITGEIST_EXPORT QDataStream &operator<<(QDataStream &stream, const DataSource &dataSource);
     friend QZEITGEIST_EXPORT QDataStream &operator>>(QDataStream &stream, DataSource &dataSource);
 
 private:
+    HANDLE createHandle() const;
+    static DataSource fromHandle(HANDLE handle);
+
     void detach();
 
     class DataSourcePrivate *d;
     friend class DataSourcePrivate;
+
+    friend class Tools;
 };
 
 } // namespace QZeitgeist

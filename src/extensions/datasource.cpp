@@ -192,6 +192,43 @@ void DataSource::setEventTemplates(const QList<Event> &eventTemplates)
     d->eventTemplates = eventTemplates;
 }
 
+static const int streamVersion = 1;
+
+QDataStream &operator<<(QDataStream &stream, const DataSource &dataSource)
+{
+    stream << streamVersion;
+    stream << dataSource.d->enabled;
+    stream << dataSource.d->running;
+    stream << dataSource.d->timestamp;
+    stream << dataSource.d->uniqueId;
+    stream << dataSource.d->name;
+    stream << dataSource.d->description;
+    stream << dataSource.d->eventTemplates;
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, DataSource &dataSource)
+{
+    int version = -1;
+    stream >> version;
+
+    if (version != streamVersion) {
+        qWarning() << "DataSource: Invalid stream version!";
+        return stream;
+    }
+
+    stream >> dataSource.d->enabled;
+    stream >> dataSource.d->running;
+    stream >> dataSource.d->timestamp;
+    stream >> dataSource.d->uniqueId;
+    stream >> dataSource.d->name;
+    stream >> dataSource.d->description;
+    stream >> dataSource.d->eventTemplates;
+
+    return stream;
+}
+
 HANDLE DataSource::createHandle() const
 {
     QByteArray idData = d->uniqueId.toUtf8();
@@ -228,43 +265,6 @@ DataSource DataSource::fromHandle(HANDLE handle)
     dataSource.d->eventTemplates = Tools::eventsFromPtrArray(zeitgeist_data_source_get_event_templates(ds));
 
     return dataSource;
-}
-
-static const int streamVersion = 1;
-
-QDataStream &operator<<(QDataStream &stream, const DataSource &dataSource)
-{
-    stream << streamVersion;
-    stream << dataSource.d->enabled;
-    stream << dataSource.d->running;
-    stream << dataSource.d->timestamp;
-    stream << dataSource.d->uniqueId;
-    stream << dataSource.d->name;
-    stream << dataSource.d->description;
-    stream << dataSource.d->eventTemplates;
-
-    return stream;
-}
-
-QDataStream &operator>>(QDataStream &stream, DataSource &dataSource)
-{
-    int version = -1;
-    stream >> version;
-
-    if (version != streamVersion) {
-        qWarning() << "DataSource: Invalid stream version!";
-        return stream;
-    }
-
-    stream >> dataSource.d->enabled;
-    stream >> dataSource.d->running;
-    stream >> dataSource.d->timestamp;
-    stream >> dataSource.d->uniqueId;
-    stream >> dataSource.d->name;
-    stream >> dataSource.d->description;
-    stream >> dataSource.d->eventTemplates;
-
-    return stream;
 }
 
 void DataSource::detach()

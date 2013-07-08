@@ -50,8 +50,12 @@ public:
     static QList<quint32> quint32ListFromGArray(GArray *array);
 
     static Event eventFromHandle(HANDLE handle);
+
     static TimeRange timeRangeFromHandle(HANDLE handle);
     static HANDLE timeRangeCreateHandle(const TimeRange &tr);
+
+    static DataSource dataSourceFromHandle(HANDLE handle);
+    static HANDLE dataSourceCreateHandle(const DataSource &ds);
 };
 
 } // namespace QZeitgeist
