@@ -73,11 +73,11 @@ if (BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-#option(BUILD_DEMOS "Build demos" TRUE)
-#
-#if (BUILD_DEMOS)
-#    add_subdirectory(demos)
-#endif()
+option(BUILD_DEMOS "Build demos" TRUE)
+
+if (BUILD_DEMOS)
+    add_subdirectory(demos)
+endif()
 
 # Generate cmake file
 get_target_property(QZEITGEIST_LIBRARY qzeitgeist LOCATION)
