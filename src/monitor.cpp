@@ -75,7 +75,6 @@ MonitorPrivate::MonitorPrivate(const TimeRange &timeRange, const QList<Event> &e
     g_signal_connect(monitor, "events-inserted", G_CALLBACK(on_events_inserted), this);
 
     g_object_unref(tr);
-    g_ptr_array_unref(templates);
 
     Q_ASSERT(monitor);
 }
