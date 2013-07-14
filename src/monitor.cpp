@@ -74,6 +74,7 @@ MonitorPrivate::MonitorPrivate(const TimeRange &timeRange, const QList<Event> &e
     g_signal_connect(monitor, "events-deleted", G_CALLBACK(on_events_deleted), this);
     g_signal_connect(monitor, "events-inserted", G_CALLBACK(on_events_inserted), this);
 
+    // Don't unref templates, zeitgeist_monitor_new already takes care of it
     g_object_unref(tr);
 
     Q_ASSERT(monitor);
@@ -81,7 +82,9 @@ MonitorPrivate::MonitorPrivate(const TimeRange &timeRange, const QList<Event> &e
 
 MonitorPrivate::~MonitorPrivate()
 {
-    g_object_unref(monitor);
+    if (monitor) {
+        g_object_unref(monitor);
+    }
 }
 
 void MonitorPrivate::emitEventsDeleted(const TimeRange &tr, const QList<quint32> &ids)
@@ -139,6 +142,11 @@ void Monitor::setTimeRange(const TimeRange &timeRange)
 HANDLE Monitor::getHandle() const
 {
     return d->monitor;
+}
+
+void Monitor::clearHandle()
+{
+    d->monitor = 0;
 }
 
 } // namespace QZeitgeist

@@ -296,6 +296,11 @@ bool Log::removeMonitor(Monitor *monitor)
         return false;
     }
 
+    // zeitgeist_log_remove_monitor internally unref monitor, so we should
+    // delete our object too.
+    monitor->clearHandle();
+    delete monitor;
+
     return true;
 }
 

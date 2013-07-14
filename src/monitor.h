@@ -55,6 +55,7 @@ private:
     Q_DISABLE_COPY(Monitor)
 
     HANDLE getHandle() const;
+    void clearHandle();
 
     class MonitorPrivate *d;
     friend class MonitorPrivate;

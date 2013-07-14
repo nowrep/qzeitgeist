@@ -1,6 +1,7 @@
 #include "test-log.h"
 #include "QZeitgeist/ResultSet"
 #include "QZeitgeist/TimeRange"
+#include "QZeitgeist/Monitor"
 
 #include <QTest>
 #include <QSignalSpy>
@@ -110,6 +111,17 @@ void LogTest::deleteEvents()
     int returnRequestId = okSpy.first().at(0).toInt();
 
     QCOMPARE(returnRequestId, requestId);
+}
+
+void LogTest::installMonitor()
+{
+    QList<Event> templates;
+
+    Monitor *m = new Monitor(TimeRange::timeRangeAnytime(), templates);
+    m->setEventTemplates(templates);
+
+    QCOMPARE(m_log->installMonitor(m), true);
+    QCOMPARE(m_log->removeMonitor(m), true);
 }
 
 QTEST_MAIN(LogTest)
