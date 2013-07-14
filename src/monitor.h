@@ -48,8 +48,8 @@ public:
     void setTimeRange(const TimeRange &timeRange);
 
 Q_SIGNALS:
-    void eventsDeleted(const TimeRange &timeRange, const QList<quint32> &ids);
-    void eventsInserted(const TimeRange &timeRange, const ResultSet &events);
+    void eventsDeleted(const QZeitgeist::TimeRange &timeRange, const QList<quint32> &ids);
+    void eventsInserted(const QZeitgeist::TimeRange &timeRange, const QZeitgeist::ResultSet &events);
 
 private:
     Q_DISABLE_COPY(Monitor)
