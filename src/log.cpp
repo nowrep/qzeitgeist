@@ -64,7 +64,7 @@ public:
 
 LogPrivate::LogPrivate(Log *log)
     : q(log)
-    , log(0)
+    , log(zeitgeist_log_new())
     , isDefault(false)
     , requestIdCounter(0)
 {
@@ -276,8 +276,6 @@ Log::Log(QObject *parent)
     : QObject(parent)
     , d(new LogPrivate(this))
 {
-    d->log = zeitgeist_log_new();
-
     qRegisterMetaType<QList<quint32> >("QList<quint32>");
     qRegisterMetaType<QList<QUrl> >("QList<QUrl>");
 }
@@ -458,6 +456,8 @@ QStringList Log::extensions() const
 Log *Log::defaultLog()
 {
     Log *log = new Log;
+    g_object_unref(log->d->log);
+
     log->d->log = zeitgeist_log_get_default();
     log->d->isDefault = true;
 
