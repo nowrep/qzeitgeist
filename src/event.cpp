@@ -26,6 +26,7 @@ extern "C" {
 #include <QtCore/QUrl>
 #include <QtCore/QAtomicInt>
 #include <QtCore/QDebug>
+#include <QtGui/QFileIconProvider>
 
 namespace QZeitgeist
 {
@@ -114,6 +115,30 @@ bool Event::operator==(const Event &other) const
 bool Event::isValid() const
 {
     return d->id > 0 && d->timestamp > 0;
+}
+
+QIcon Event::icon() const
+{
+    QFileIconProvider icons;
+    QIcon ret;
+
+    Q_FOREACH(Subject subject, d->subjects) {
+        QUrl url = subject.url();
+        if (url.scheme() == "file") {
+            QFileInfo info(url.path());
+            ret = icons.icon(info);
+            if (!ret.isNull()) {
+                break;
+            }
+        }
+    }
+
+    if (ret.isNull()) {
+        QString desktopFile = d->actor.authority().section('.', 0, 0);
+        ret = QIcon::fromTheme(desktopFile);
+    }
+
+    return ret;
 }
 
 quint32 Event::id() const

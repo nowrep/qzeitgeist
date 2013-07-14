@@ -41,6 +41,7 @@ public:
     bool operator==(const Event &other) const;
 
     bool isValid() const;
+    QIcon icon() const;
 
     quint32 id() const;
     void setId(quint32 id);
