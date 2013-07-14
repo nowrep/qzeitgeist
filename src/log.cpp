@@ -123,24 +123,6 @@ void LogPrivate::emitEventsDeleted(int id, const TimeRange &tr) const
 }
 
 // callbacks
-static void on_monitor_removed(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
-{
-    GError *error = 0;
-    zeitgeist_log_remove_monitor_finish(log, res, &error);
-
-    if (error) {
-        request->d->emitError(request->id, error->message);
-
-        g_error_free(error);
-        delete request;
-        return;
-    }
-
-    request->d->emitMonitorRemoved(request->id);
-
-    delete request;
-}
-
 static void on_events_inserted(ZeitgeistLog *log, GAsyncResult *res, LogRequest *request)
 {
     GError *error = 0;
@@ -300,16 +282,21 @@ bool Log::installMonitor(Monitor *monitor)
     return true;
 }
 
-int Log::removeMonitor(Monitor *monitor)
+bool Log::removeMonitor(Monitor *monitor)
 {
-    int id = d->createId();
+    GError *err = 0;
 
     zeitgeist_log_remove_monitor(d->log,
                                  (ZeitgeistMonitor *)monitor->getHandle(),
-                                 (GAsyncReadyCallback)on_monitor_removed,
-                                 new LogRequest(id, d));
+                                 &err);
 
-    return id;
+    if (err) {
+        qWarning() << "Log::installMonitor Error:" << err->message;
+        g_error_free(err);
+        return false;
+    }
+
+    return true;
 }
 
 int Log::insertEvent(const Event &event)

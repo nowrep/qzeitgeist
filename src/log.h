@@ -45,7 +45,7 @@ public:
     ~Log();
 
     bool installMonitor(Monitor *monitor);
-    int removeMonitor(Monitor *monitor);
+    bool removeMonitor(Monitor *monitor);
 
     int insertEvent(const Event &event);
     int insertEvents(const QList<Event> &events);
