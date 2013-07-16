@@ -18,12 +18,6 @@ set(QZEITGEIST_LIB_SOVERSION 2)
 set(QZEITGEIST_VERSION "${QZEITGEIST_VERSION_MAJOR}.${QZEITGEIST_VERSION_MINOR}.${QZEITGEIST_VERSION_PATCH}")
 set(SHARE_INSTALL_PREFIX "share")
 
-option(QZEITGEIST_BUILD_DOC "Build API documentation" OFF)
-
-if(QZEITGEIST_BUILD_DOC)
-    add_subdirectory(doc)
-endif()
-
 # Provide a cmake option, which, if set, force the Qt stuff to be installed into the
 # system Qt directories, which may be outside CMAKE_INSTALL_PREFIX.
 # By default always install inside CMAKE_INSTALL_PREFIX.
@@ -72,6 +66,13 @@ option(BUILD_TESTS "Build Tests" TRUE)
 if (BUILD_TESTS)
     add_subdirectory(tests)
 endif()
+
+option(BUILD_DOC "Build API documentation" TRUE)
+
+if(BUILD_DOC)
+    add_subdirectory(doc)
+endif()
+
 
 option(BUILD_DEMOS "Build demos" TRUE)
 
