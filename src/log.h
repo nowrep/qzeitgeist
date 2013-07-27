@@ -58,6 +58,7 @@ public:
 
     int getEventsByIds(const QList<quint32> &eventIds);
 
+    int deleteEvent(quint32 eventId);
     int deleteEvents(const QList<quint32> &eventIds);
 
     int findRelatedUrls(const TimeRange &timeRange, const QList<Event> &eventTemplates,

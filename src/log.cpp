@@ -375,6 +375,11 @@ int Log::getEventsByIds(const QList<quint32> &eventIds)
     return id;
 }
 
+int Log::deleteEvent(quint32 eventId)
+{
+    return deleteEvents(QList<quint32>() << eventId);
+}
+
 int Log::deleteEvents(const QList<quint32> &eventIds)
 {
     GArray *arr = Tools::quint32ListToGArray(eventIds);
