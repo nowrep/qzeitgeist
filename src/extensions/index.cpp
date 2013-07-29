@@ -79,7 +79,6 @@ static void on_found(ZeitgeistIndex *index, GAsyncResult *res, IndexPrivate *d)
         d->emitError(error->message);
 
         g_error_free(error);
-        g_object_unref(result);
         return;
     }
 
@@ -100,7 +99,6 @@ static void on_found_with_relevancies(ZeitgeistIndex *index, GAsyncResult *res, 
 
         g_error_free(error);
         g_free(array);
-        g_object_unref(result);
         return;
     }
 

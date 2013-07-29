@@ -108,7 +108,6 @@ static void on_all_sources_got(ZeitgeistDataSourceRegistry *registry, GAsyncResu
         request->d->emitError(request->id, error->message);
 
         g_error_free(error);
-        g_ptr_array_unref(result);
         delete request;
         return;
     }
@@ -129,7 +128,6 @@ static void on_source_got_by_id(ZeitgeistDataSourceRegistry *registry, GAsyncRes
         request->d->emitError(request->id, error->message);
 
         g_error_free(error);
-        g_object_unref(result);
         delete request;
         return;
     }

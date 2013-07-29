@@ -132,7 +132,6 @@ static void on_events_inserted(ZeitgeistLog *log, GAsyncResult *res, LogRequest 
         request->d->emitError(request->id, error->message);
 
         g_error_free(error);
-        g_array_unref(event_ids);
         delete request;
         return;
     }
@@ -152,7 +151,6 @@ static void on_events_found(ZeitgeistLog *log, GAsyncResult *res, LogRequest *re
         request->d->emitError(request->id, error->message);
 
         g_error_free(error);
-        g_object_unref(result);
         delete request;
         return;
     }
@@ -197,7 +195,6 @@ static void on_events_got_by_id(ZeitgeistLog *log, GAsyncResult *res, LogRequest
         request->d->emitError(request->id, error->message);
 
         g_error_free(error);
-        g_object_unref(result);
         delete request;
         return;
     }
@@ -216,7 +213,6 @@ static void on_events_deleted(ZeitgeistLog *log, GAsyncResult *res, LogRequest *
         request->d->emitError(request->id, error->message);
 
         g_error_free(error);
-        g_object_unref(result);
         delete request;
         return;
     }
