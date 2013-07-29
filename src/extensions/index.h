@@ -47,8 +47,8 @@ public:
                                quint32 offset, quint32 count, ResultType resultType);
 
 Q_SIGNALS:
-    void eventsFound(const ResultSet &resultSet);
-    void eventsFoundWithRelevancies(const ResultSet &resultSet, const QList<double> &relevancies);
+    void eventsFound(const QZeitgeist::ResultSet &resultSet);
+    void eventsFoundWithRelevancies(const QZeitgeist::ResultSet &resultSet, const QList<double> &relevancies);
     void error(const QString &errorMessage);
 
 private:
