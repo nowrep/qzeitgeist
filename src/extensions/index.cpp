@@ -25,6 +25,7 @@ extern "C" {
 #include "tools.h"
 #include "timerange.h"
 #include "resultset.h"
+#include <QDebug>
 
 namespace QZeitgeist
 {
@@ -82,9 +83,7 @@ static void on_found(ZeitgeistIndex *index, GAsyncResult *res, IndexPrivate *d)
         return;
     }
 
-    d->emitEventsFound(ResultSet::fromHandle(result));
-
-    g_object_unref(result);
+    d->emitEventsFound(ResultSet::acquireHandle(result));
 }
 
 static void on_found_with_relevancies(ZeitgeistIndex *index, GAsyncResult *res, IndexPrivate *d)
@@ -108,10 +107,9 @@ static void on_found_with_relevancies(ZeitgeistIndex *index, GAsyncResult *res, 
         list.append(array[i]);
     }
 
-    d->emitEventsFoundWithRelevancies(ResultSet::fromHandle(result), list);
+    d->emitEventsFoundWithRelevancies(ResultSet::acquireHandle(result), list);
 
     g_free(array);
-    g_object_unref(result);
 }
 
 // class Index
@@ -132,9 +130,10 @@ void Index::search(const QString &query, const TimeRange &timeRange,
 {
     ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *arr = Tools::eventsToPtrArray(eventTemplates);
+    QByteArray queryData = query.toUtf8();
 
     zeitgeist_index_search(d->index,
-                           query.toUtf8().constData(),
+                           queryData.constData(),
                            tr,
                            arr,
                            offset,
@@ -154,9 +153,10 @@ void Index::searchWithRelevancies(const QString &query, const TimeRange &timeRan
 {
     ZeitgeistTimeRange *tr = (ZeitgeistTimeRange *)Tools::timeRangeCreateHandle(timeRange);
     GPtrArray *arr = Tools::eventsToPtrArray(eventTemplates);
+    QByteArray queryData = query.toUtf8();
 
     zeitgeist_index_search_with_relevancies(d->index,
-                                            query.toUtf8().constData(),
+                                            queryData.constData(),
                                             tr,
                                             arr,
                                             (ZeitgeistStorageState)storageState,

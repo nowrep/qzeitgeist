@@ -26,7 +26,6 @@ ZgBrowser::ZgBrowser(QWidget *parent)
 
     TimeRange timeRange = TimeRange::timeRangeAnytime();
     QList<Event> eventTemplates;
-    eventTemplates << Event();
     m_log->findEvents(timeRange, eventTemplates, AnyState, MostRecentEventsResult, 100);
 
     m_monitor = new Monitor(timeRange, eventTemplates, this);

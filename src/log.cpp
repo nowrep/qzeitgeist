@@ -155,7 +155,7 @@ static void on_events_found(ZeitgeistLog *log, GAsyncResult *res, LogRequest *re
         return;
     }
 
-    request->d->emitEventsFound(request->id, ResultSet::fromHandle(result));
+    request->d->emitEventsFound(request->id, ResultSet::acquireHandle(result));
 
     delete request;
 }
@@ -199,7 +199,7 @@ static void on_events_got_by_id(ZeitgeistLog *log, GAsyncResult *res, LogRequest
         return;
     }
 
-    request->d->emitEventsGotById(request->id, ResultSet::fromHandle(result));
+    request->d->emitEventsGotById(request->id, ResultSet::acquireHandle(result));
 
     delete request;
 }

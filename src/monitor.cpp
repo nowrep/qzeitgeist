@@ -53,15 +53,19 @@ static void on_events_deleted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range
     }
 
     monitor->emitEventsDeleted(tr, ids);
+
+    g_object_unref(time_range);
 }
 
 static void on_events_inserted(ZeitgeistMonitor *, ZeitgeistTimeRange *time_range,
                                ZeitgeistResultSet *events, MonitorPrivate *monitor)
 {
     TimeRange tr = Tools::timeRangeFromHandle(time_range);
-    ResultSet resultSet = ResultSet::fromHandle(events);
+    ResultSet resultSet = ResultSet::acquireHandle(events);
 
     monitor->emitEventsInserted(tr, resultSet);
+
+    g_object_unref(time_range);
 }
 
 MonitorPrivate::MonitorPrivate(const TimeRange &timeRange, const QList<Event> &eventTemplates, Monitor *q_)

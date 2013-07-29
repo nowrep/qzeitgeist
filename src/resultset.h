@@ -46,7 +46,7 @@ public:
     int currentPosition() const;
     void reset();
 
-    static ResultSet fromHandle(HANDLE handle);
+    static ResultSet acquireHandle(HANDLE handle);
 
 private:
     QSharedPointer<class ResultSetPrivate> d;

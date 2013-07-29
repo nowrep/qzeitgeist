@@ -107,7 +107,7 @@ void ResultSet::reset()
 }
 
 // static
-ResultSet ResultSet::fromHandle(HANDLE handle)
+ResultSet ResultSet::acquireHandle(HANDLE handle)
 {
     ResultSet r;
     r.d = QSharedPointer<ResultSetPrivate>(new ResultSetPrivate((ZeitgeistResultSet *)handle));

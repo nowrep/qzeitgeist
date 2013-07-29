@@ -7,7 +7,6 @@ SimpleList::SimpleList() : QObject()
 
     // Empty event matches anything
     QList<Event> eventTemplates;
-    eventTemplates << Event();
 
     Log *log = new Log();
     connect(log, SIGNAL(eventsFound(int,QZeitgeist::ResultSet)),
