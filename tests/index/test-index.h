@@ -14,6 +14,6 @@ private slots:
 
 private:
     QZeitgeist::Log *m_log;
-    quint32 m_id;
+    QList<quint32> m_ids;
 };
 
