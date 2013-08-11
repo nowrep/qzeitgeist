@@ -124,5 +124,31 @@ void LogTest::installMonitor()
     QCOMPARE(m_log->removeMonitor(m), true);
 }
 
+void LogTest::getNonexistantId()
+{
+    ResultSet tmp; // For qRegisterMetaType
+
+    QSignalSpy errorSpy(m_log, SIGNAL(error(int,QString)));
+    QSignalSpy okSpy(m_log, SIGNAL(eventsGotById(int,QZeitgeist::ResultSet)));
+
+    int requestId = m_log->getEventsByIds(QList<quint32>() << m_insertedId);
+
+    while (errorSpy.count() == 0 && okSpy.count() == 0)
+        QTest::qWait(50);
+
+    if (errorSpy.count() > 0)
+        QFAIL(qPrintable("Error: " + errorSpy.first().at(1).toString()));
+
+    int returnRequestId = okSpy.first().at(0).toInt();
+    ResultSet res = okSpy.first().at(1).value<ResultSet>();
+
+    QCOMPARE(returnRequestId, requestId);
+    QCOMPARE(1, res.size());
+
+    Event ev = res.nextValue();
+
+    QVERIFY(ev.isValid() == false);
+}
+
 QTEST_MAIN(LogTest)
 

@@ -14,6 +14,7 @@ private slots:
     void getEvents();
     void deleteEvents();
     void installMonitor();
+    void getNonexistantId();
 
 private:
     QZeitgeist::Log *m_log;
