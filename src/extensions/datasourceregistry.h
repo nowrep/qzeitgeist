@@ -43,8 +43,8 @@ public:
     int setDataSourceEnabled(const QString &uniqueId, bool enabled);
 
 Q_SIGNALS:
-    void dataSourcesReceived(int requestId, const QList<DataSource> &dataSources);
-    void dataSourceGotById(int requestId, const DataSource &dataSource);
+    void dataSourcesReceived(int requestId, const QList<QZeitgeist::DataSource> &dataSources);
+    void dataSourceGotById(int requestId, const QZeitgeist::DataSource &dataSource);
     void dataSourceRegistered(int requestId);
     void dataSourceEnabled(int requestId);
     void error(int requestId, const QString &errorMessage);
