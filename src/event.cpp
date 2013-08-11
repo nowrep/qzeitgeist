@@ -321,6 +321,10 @@ Event Event::fromHandle(HANDLE handle)
     ZeitgeistEvent *event = (ZeitgeistEvent *)handle;
     Event ev;
 
+    if (!event) {
+        return ev;
+    }
+
     ev.d->id = zeitgeist_event_get_id(event);
     ev.d->timestamp = zeitgeist_event_get_timestamp(event);
     ev.d->origin = QUrl(zeitgeist_event_get_origin(event));
