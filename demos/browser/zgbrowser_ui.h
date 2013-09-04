@@ -13,6 +13,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -48,6 +49,7 @@ public:
     QLabel *text;
     QLabel *url;
     QWebView *webView;
+    QCheckBox *recordSites;
 
     void setupUi(QWidget *ZgBrowser)
     {
@@ -151,6 +153,11 @@ public:
 
         verticalLayout->addWidget(splitter_2);
 
+        recordSites = new QCheckBox(ZgBrowser);
+        recordSites->setObjectName(QString::fromUtf8("recordSites"));
+
+        verticalLayout->addWidget(recordSites);
+
 
         retranslateUi(ZgBrowser);
 
@@ -167,6 +174,7 @@ public:
         label_7->setText(QApplication::translate("ZgBrowser", "Manifestation:", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("ZgBrowser", "Text:", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("ZgBrowser", "Url:", 0, QApplication::UnicodeUTF8));
+        recordSites->setText(QApplication::translate("ZgBrowser", "Record visited sites", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

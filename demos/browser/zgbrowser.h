@@ -28,12 +28,15 @@ private Q_SLOTS:
     void slotEventsInserted(const QZeitgeist::TimeRange &tr, QZeitgeist::ResultSet rs);
 
     void itemChanged(QListWidgetItem *item);
+    void recordSitesChanged(int state);
     void logPage();
 
 private:
     Ui::ZgBrowser *ui;
     QZeitgeist::Log *m_log;
     QZeitgeist::Monitor *m_monitor;
+
+    bool m_recordSites;
 };
 
 #endif // ZGBROWSER_H

@@ -123,6 +123,13 @@
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QCheckBox" name="recordSites">
+     <property name="text">
+      <string>Record visited sites</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>

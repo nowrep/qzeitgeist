@@ -11,6 +11,7 @@ using namespace QZeitgeist;
 ZgBrowser::ZgBrowser(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ZgBrowser)
+    , m_recordSites(false)
 {
     ui->setupUi(this);
     ui->splitter->setSizes(QList<int>() << 500 << 500);
@@ -38,6 +39,7 @@ ZgBrowser::ZgBrowser(QWidget *parent)
             this, SLOT(itemChanged(QListWidgetItem*)));
 
     connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(logPage()));
+    connect(ui->recordSites, SIGNAL(stateChanged(int)), this, SLOT(recordSitesChanged(int)));
 }
 
 void ZgBrowser::slotEventsFound(int id, QZeitgeist::ResultSet rs)
@@ -105,9 +107,14 @@ void ZgBrowser::itemChanged(QListWidgetItem *item)
     }
 }
 
+void ZgBrowser::recordSitesChanged(int state)
+{
+    m_recordSites = state == Qt::Checked;
+}
+
 void ZgBrowser::logPage()
 {
-    if (ui->webView->title().isEmpty()) {
+    if (ui->webView->title().isEmpty() || !m_recordSites) {
         return;
     }
 
