@@ -79,20 +79,38 @@ void IndexTest::basicTest()
     QVERIFY(rs.hasNext());
     Event ev = rs.nextValue();
 
-    QCOMPARE(QUrl("foo://Interp"), ev.interpretation());
-    QCOMPARE(QUrl("foo://Manif"), ev.manifestation());
-    QCOMPARE(QUrl("app://firefox.desktop"), ev.actor());
-    QVERIFY(ev.subjects().count() == 1);
-    QCOMPARE(QString("bar.txt"), ev.subjects().first().text());
+    if (ev.interpretation() == QUrl("foo://Interp")) {
+        QCOMPARE(QUrl("foo://Interp"), ev.interpretation());
+        QCOMPARE(QUrl("foo://Manif"), ev.manifestation());
+        QCOMPARE(QUrl("app://firefox.desktop"), ev.actor());
+        QVERIFY(ev.subjects().count() == 1);
+        QCOMPARE(QString("bar.txt"), ev.subjects().first().text());
 
-    QVERIFY(rs.hasNext());
-    Event ev2 = rs.nextValue();
+        QVERIFY(rs.hasNext());
+        Event ev2 = rs.nextValue();
 
-    QCOMPARE(QUrl("bar://Interp"), ev2.interpretation());
-    QCOMPARE(QUrl("bar://Manif"), ev2.manifestation());
-    QCOMPARE(QUrl("app://iceweasel.desktop"), ev2.actor());
-    QVERIFY(ev2.subjects().count() == 1);
-    QCOMPARE(QString("bar.txt"), ev2.subjects().first().text());
+        QCOMPARE(QUrl("bar://Interp"), ev2.interpretation());
+        QCOMPARE(QUrl("bar://Manif"), ev2.manifestation());
+        QCOMPARE(QUrl("app://iceweasel.desktop"), ev2.actor());
+        QVERIFY(ev2.subjects().count() == 1);
+        QCOMPARE(QString("bar.txt"), ev2.subjects().first().text());
+    }
+    else {
+        QCOMPARE(QUrl("bar://Interp"), ev.interpretation());
+        QCOMPARE(QUrl("bar://Manif"), ev.manifestation());
+        QCOMPARE(QUrl("app://iceweasel.desktop"), ev.actor());
+        QVERIFY(ev.subjects().count() == 1);
+        QCOMPARE(QString("bar.txt"), ev.subjects().first().text());
+
+        QVERIFY(rs.hasNext());
+        Event ev2 = rs.nextValue();
+
+        QCOMPARE(QUrl("foo://Interp"), ev2.interpretation());
+        QCOMPARE(QUrl("foo://Manif"), ev2.manifestation());
+        QCOMPARE(QUrl("app://firefox.desktop"), ev2.actor());
+        QVERIFY(ev2.subjects().count() == 1);
+        QCOMPARE(QString("bar.txt"), ev2.subjects().first().text());
+    }
 
     // Querying only for 2 events
     QVERIFY(!rs.hasNext());
