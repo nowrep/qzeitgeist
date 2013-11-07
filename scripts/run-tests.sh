@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DIRS="event
+index
 log
 mimetypes
 symbols
